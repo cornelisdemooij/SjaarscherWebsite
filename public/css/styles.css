@@ -1,0 +1,64 @@
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: #FFFFFF;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  position: relative;
+  z-index: 0;
+  background-color: #FAFAFA;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #222;
+  font-weight: 300;
+  overflow-y: hidden; /* Hide vertical scrollbar */
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  text-align: center;
+}
+
+#topbar {
+  position: relative;
+  z-index: 2;
+  border-bottom: solid 1px #DBDBDB;
+}
+#topbar-title {
+  font-size: 48px;
+  color: #5f051f;
+  text-align: center;
+  margin: 10px;
+}
+#topbar-title-icon {
+  height:1em;
+  margin:-0.1em;
+}
+
+/* Draggable Part */
+.drag-container {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  max-width: 500px;
+  text-align: center;
+  margin: 20px;
+}
+.drag-container-content {
+  background-color: #FFFFFF;
+  border: solid 1px #DBDBDB;
+  border-radius: 5px;
+  cursor: move;
+  width: 100%;
+  overflow: hidden;
+}
+.drag-container-content img {
+  width: 100%;
+}
+
+/* Profile */
+.profile-name {
+  margin: 0.25em;
+}

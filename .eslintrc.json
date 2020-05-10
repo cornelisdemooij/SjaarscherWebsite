@@ -1,0 +1,8 @@
+{
+  "plugins": ["lit"],   
+  "rules": {
+    "lit/rule-name": "error"
+  },
+  "extends": ["plugin:lit/recommended"],
+  "env": {"browser": true}
+}
