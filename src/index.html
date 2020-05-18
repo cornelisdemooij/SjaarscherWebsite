@@ -15,27 +15,24 @@
   <link rel="stylesheet" type="text/css" href="./css/styles.css">
 </head>
 <body>
-  <div id="topbar">
-    <h1 id="topbar-title">
-      <img src="./assets/icons/icon.svg" id="topbar-title-icon">jaarscher
-    </h1>
+  <div id=fixed-buttons>
+    <img id="search-icon" src="./assets/icons/search.svg">
   </div>
-  
+
   <div class="drag-container">
     <div class="drag-container-content">
-      <h2 class="profile-name">Arthur Djamardzhashvili (Ron)</h2>
-      <img 
-        src="./assets/profilePictures/Arthur Djamardzhashvili (Ron).jpg" 
-        alt="Arthur Djamardzhashvili (Ron)" 
-        title="Arthur Djamardzhashvili (Ron)"
-      >
-      <form action="/">
-        <label for="fcomment">Enter a comment:</label>
-        <input type="text" id="fcomment" name="fcomment" placeholder="Add a comment...">
-        <input type="submit" value="Post">
-      </form>
+      <div class="image-container">
+        <img 
+          class="profile-image"
+          src="./assets/profilePictures/Arthur Djamardzhashvili (Ron).jpg" 
+          alt="Arthur Djamardzhashvili (Ron)" 
+          title="Arthur Djamardzhashvili (Ron)"
+        >
+        <div class="profile-name">Arthur Djamardzhashvili (Ron)</div>
+      </div>
     </div>
   </div>
+
   <script type='module' src='main.js'></script>
 </body>
 </html>
