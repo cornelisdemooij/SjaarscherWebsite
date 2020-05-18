@@ -1,18 +1,17 @@
 export default function dragElement(elem) {
-  var oldMouseX = 0, oldMouseY = 0;
-  var oldElemX = 0, oldElemY = 0;
-  let draggableElem = elem.querySelectorAll('.drag-container-content')[0];
-  let width = draggableElem.offsetWidth;
-  let height = draggableElem.offsetHeight;
+  let oldMouseX = 0; let oldMouseY = 0;
+  let oldElemX = 0; let oldElemY = 0;
+  const draggableElem = elem.querySelectorAll('.drag-container-content')[0];
+  const width = draggableElem.offsetWidth;
+  const height = draggableElem.offsetHeight;
   if (draggableElem) {
     // If present, the header is where you move the DIV from: // TODO: Add handlers for device touches.
     draggableElem.onmousedown = dragMouseDown;
   }
 
   function setRotation(a) {
-    let c = Math.cos(a);
-    let s = Math.sin(a);
-    elem.style.transformOrigin = `bottom center`;
+    const c = Math.cos(a);
+    const s = Math.sin(a);
     elem.style.transform = `matrix(${c}, ${s}, ${-s}, ${c}, 0, 0)`;
   }
 
@@ -34,14 +33,14 @@ export default function dragElement(elem) {
     e = e || window.event;
     e.preventDefault();
     // Calculate the change in cursor position:
-    let deltaMouseX = e.clientX - oldMouseX;
-    let deltaMouseY = e.clientY - oldMouseY;
-    let newElemX = oldElemX + deltaMouseX;
-    let newElemY = oldElemY + deltaMouseY;
+    const deltaMouseX = e.clientX - oldMouseX;
+    const deltaMouseY = e.clientY - oldMouseY;
+    const newElemX = oldElemX + deltaMouseX;
+    const newElemY = oldElemY + deltaMouseY;
 
-    let a1 = Math.atan2(width/2-oldElemX, height-oldElemY);
-    let a2 = Math.atan2(newElemX-width/2, height-newElemY);
-    let a = a1+a2;
+    const a1 = Math.atan2(width/2-oldElemX, height-oldElemY);
+    const a2 = Math.atan2(newElemX-width/2, height-newElemY);
+    const a = a1+a2;
     if (a > 0.5) {
       console.log('like');
     } else if (a < -0.5) {
@@ -52,7 +51,7 @@ export default function dragElement(elem) {
 
   function closeDragElement() {
     // TODO: Animate the element bouncing back to its original position.
-    // Stop moving the element when mouse button is released: 
+    // Stop moving the element when mouse button is released:
     document.onmouseup = null;
     document.onmousemove = null;
   }

@@ -7,6 +7,8 @@
 
 html, body {
   height: 100%;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 body {
@@ -16,13 +18,9 @@ body {
   text-align: center;
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-html::-webkit-scrollbar {
-  display: none;
-}
-/* Hide scrollbar for IE and Edge */
-html {
-  -ms-overflow-style: none;
+::-webkit-scrollbar {
+  width: 0px; /* remove scrollbar space */
+  background: transparent; /* make scrollbar invisible */
 }
 
 #fixed-buttons {
@@ -61,6 +59,7 @@ html {
   position: relative;
   display: inline-block;
   width: 600px;
+  transform-origin: bottom center;
 }
 @media (max-width: 600px) {
   .drag-container {
