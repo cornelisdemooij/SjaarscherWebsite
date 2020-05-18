@@ -42,6 +42,11 @@ export default function dragElement(elem) {
     let a1 = Math.atan2(width/2-oldElemX, height-oldElemY);
     let a2 = Math.atan2(newElemX-width/2, height-newElemY);
     let a = a1+a2;
+    if (a > 0.5) {
+      console.log('like');
+    } else if (a < -0.5) {
+      console.log('dislike');
+    }
     setRotation(a);
   }
 
