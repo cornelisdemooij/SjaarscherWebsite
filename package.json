@@ -4,7 +4,8 @@
   "description": "The frontend implementation of Sjaarscher, a website and app that connects students and student organizations.",
   "main": "src/index.js",
   "scripts": {
-    "start": "serve src"
+    "start": "polymer serve",
+    "build": "polymer build --js-compile --js-minify --css-minify --html-minify --bundle"
   },
   "repository": {
     "type": "git",
