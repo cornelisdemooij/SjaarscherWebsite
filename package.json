@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "polymer serve",
-    "build": "polymer build --js-compile --js-minify --css-minify --html-minify --bundle"
+    "build": "polymer build --js-compile --js-minify --css-minify --html-minify --bundle && cp -r ./assets ./build/default/assets"
   },
   "repository": {
     "type": "git",
