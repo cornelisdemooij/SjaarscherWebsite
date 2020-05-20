@@ -1,0 +1,67 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci                       # Clean install
+    - run: npm run build --if-present   # Build with Polymer, see package.json
+    #- run: npm test                    # Disabled, because I haven't created tests yet.
+    
+    - name: SFTP Deploy AMS 1
+      uses: wlixcc/SFTP-Deploy-Action@v1.0
+      with:
+        # username
+        username: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_USERNAME }}
+        # your sftp server
+        server: sftp://${{ secrets.AMS3_SJAARSCHER_01_IP }}
+        # your sftp server port, default to 22
+        port: 22
+        # you can copy private_key from your *.pem file, keep format
+        ssh_private_key: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_PRIVATE_KEY }}
+        # will put all file under this path, default is ./*
+        local_path: ./build/default
+        # files will copy to under remote_path, default is /
+        remote_path: /var/www/html/
+        # sftp args
+        #args: # optional
+    
+    - name: SFTP Deploy AMS 2
+      uses: wlixcc/SFTP-Deploy-Action@v1.0
+      with:
+        # username
+        username: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_USERNAME }}
+        # your sftp server
+        server: sftp://${{ secrets.AMS3_SJAARSCHER_02_IP }}
+        # your sftp server port, default to 22
+        port: 22
+        # you can copy private_key from your *.pem file, keep format
+        ssh_private_key: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_PRIVATE_KEY }}
+        # will put all file under this path, default is ./*
+        local_path: ./build/default
+        # files will copy to under remote_path, default is /
+        remote_path: /var/www/html/
+        # sftp args
+        #args: # optional
+    
+    
