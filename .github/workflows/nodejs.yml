@@ -34,7 +34,7 @@ jobs:
         # username
         username: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_USERNAME }}
         # your sftp server
-        server: sftp://${{ secrets.AMS3_SJAARSCHER_01_IP }}
+        server: ${{ secrets.AMS3_SJAARSCHER_01_IP }}
         # your sftp server port, default to 22
         port: 22
         # you can copy private_key from your *.pem file, keep format
@@ -52,7 +52,7 @@ jobs:
         # username
         username: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_USERNAME }}
         # your sftp server
-        server: sftp://${{ secrets.AMS3_SJAARSCHER_02_IP }}
+        server: ${{ secrets.AMS3_SJAARSCHER_02_IP }}
         # your sftp server port, default to 22
         port: 22
         # you can copy private_key from your *.pem file, keep format
