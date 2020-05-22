@@ -17,38 +17,26 @@
   <script type='module' src='profileComponent.js'></script>
 </head>
 <body>
+  <div id="side-navigation">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+  </div>
+
   <div id=fixed-buttons>
-    <img id="menu-icon" src="assets/icons/bars.svg">
+    <img id="menu-icon" src="assets/icons/bars.svg" onclick="openNav()">
     <img id="search-icon" src="assets/icons/search.svg">
   </div>
 
-  <profile-element firstName="Amanda" lastName="Broekema" age=19>
-    <p>If you see this, profile-element is broken</p>
-  </profile-element>
-
-  <profile-element firstName="Bert" age=19>
-    <p>If you see this, profile-element is broken</p>
-  </profile-element>
-
-  <profile-element firstName="Clarissa" lastName="de Baars">
-    <p>If you see this, profile-element is broken</p>
-  </profile-element>
-
-  <profile-element firstName="Dave" lastName="Johnson" age=18>
-    <p>If you see this, profile-element is broken</p>
-  </profile-element>
-
-  <profile-element firstName="Ellie" lastName="van der Vlucht">
-    <p>If you see this, profile-element is broken</p>
-  </profile-element>
-
-  <profile-element firstName="Freddy" lastName="van 't Veld" age=17>
-    <p>If you see this, profile-element is broken</p>
-  </profile-element>
-
-  <profile-element firstName="Gert" lastName="Smit" age=18>
-    <p>If you see this, profile-element is broken</p>
-  </profile-element>
+  <profile-element firstName="Amanda" lastName="Broekema" age=19></profile-element>
+  <profile-element firstName="Bert" age=19></profile-element>
+  <profile-element firstName="Clarissa" lastName="de Baars"></profile-element>
+  <profile-element firstName="Dave" lastName="Johnson" age=18></profile-element>
+  <profile-element firstName="Ellie" lastName="van der Vlucht"></profile-element>
+  <profile-element firstName="Freddy" lastName="van 't Veld" age=17></profile-element>
+  <profile-element firstName="Gert" lastName="Smit" age=18></profile-element>
 
   <script type='module' src='index.js'></script>
 </body>

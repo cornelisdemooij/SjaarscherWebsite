@@ -50,11 +50,13 @@ class ProfileElement extends LitElement {
       firstName: { type: String },
       lastName: { type: String, value: '' },
       age: { type: Number },
-      oldMouseX: { type: Number },
-      oldMouseY: { type: Number },
-      oldElemX: { type: Number },
-      oldElemY: { type: Number },
+      
+      _oldMouseX: { type: Number },
+      _oldMouseY: { type: Number },
+      _oldElemX: { type: Number },
+      _oldElemY: { type: Number },
       _swipeResult: { type: String },
+      _dragContainer: { type: Object },
     };
   }
 
@@ -83,29 +85,32 @@ class ProfileElement extends LitElement {
       </div>
     `;
   }
+  
+  firstUpdated() {
+    this._dragContainer = this.shadowRoot.querySelectorAll('.drag-container')[0];
+  }
 
   setRotation(a) {
     const c = Math.cos(a);
     const s = Math.sin(a);
-    const dragContainer = this.shadowRoot.querySelectorAll('.drag-container')[0];
-    dragContainer.style.transform = `matrix(${c}, ${s}, ${-s}, ${c}, 0, 0)`;
+    this._dragContainer.style.transform = `matrix(${c}, ${s}, ${-s}, ${c}, 0, 0)`;
   }
 
   _onMouseDown(e) {
     e = e || window.event;
     e.preventDefault();
 
-    const dragContainer = this.shadowRoot.querySelectorAll('.drag-container')[0];
+    this._dragContainer.style.transition = '0.0s';
 
-    this.width = dragContainer.offsetWidth;
-    this.height = dragContainer.offsetHeight;
+    this.width = this._dragContainer.offsetWidth;
+    this.height = this._dragContainer.offsetHeight;
 
     // Get the mouse cursor position at startup:
     this.oldMouseX = e.clientX;
     this.oldMouseY = e.clientY;
     // Convert mouse cursor position to point on element: // TODO: Take into account existing rotation
-    this.oldElemX = e.clientX - parseInt(dragContainer.offsetLeft);
-    this.oldElemY = e.clientY - parseInt(dragContainer.offsetTop);
+    this.oldElemX = e.clientX - parseInt(this._dragContainer.offsetLeft);
+    this.oldElemY = e.clientY - parseInt(this._dragContainer.offsetTop);
     // Set handlers for mouse moving and button being released: // TODO: Add handlers for device touches.
     this.onmousemove = this._onMouseMove;
     this.onmouseup = this._onMouseUp;
@@ -140,6 +145,9 @@ class ProfileElement extends LitElement {
     // Stop moving the element when mouse button is released:
     this.onmousemove = null;
     this.onmouseup = null;
+    this._dragContainer.style.transition = '0.3s';
+    this._dragContainer.style.transform = `matrix(1, 0, 0, 1, 0, 0)`;
+    
     if (this._swipeResult !== 'none') {
       const event = new CustomEvent('profileSwipeEvent', { 
         detail: this._swipeResult,
