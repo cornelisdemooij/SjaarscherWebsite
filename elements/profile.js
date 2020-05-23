@@ -73,7 +73,7 @@ class Profile extends LitElement {
     return html`  
       <div class="drag-container">
         <div class="drag-container-content">
-          <div class="image-container" @mousedown=${this._onMouseDown} @touchstart=${this._onMouseDown}>
+          <div class="image-container" @mousedown=${this._onMouseDown} @touchstart=${this._onTouchStart}>
             <img 
               class="profile-image"
               src="assets/profilePictures/${this.firstName}/${this.firstName.toLowerCase()}.jpg" 
@@ -100,31 +100,51 @@ class Profile extends LitElement {
   _onMouseDown(e) {
     e = e || window.event;
     e.preventDefault();
-
+    this._dragStart(e.clientX, e.clientY);
+    
+    // Set handlers for mouse moving and button being released:
+    this.onmousemove = this._onMouseMove;
+    this.onmouseup = this._onMouseUp;
+  }
+  _onTouchStart(e) {
+    e = e || window.event;
+    e.preventDefault();
+    this._dragStart(e.touches[0].clientX, e.touches[0].clientY);
+    
+    // Set handlers for moving and release:
+    this.ontouchmove = this._onTouchMove;
+    this.ontouchend = this._onTouchEnd;
+  }
+  _dragStart(clientX, clientY) {
+    // Function to handle common functionality for mouse and touch.
     this._dragContainer.style.transition = '0.0s';
-
     this.width = this._dragContainer.offsetWidth;
     this.height = this._dragContainer.offsetHeight;
 
-    // Get the mouse cursor position at startup:
-    this.oldMouseX = e.clientX;
-    this.oldMouseY = e.clientY;
-    // Convert mouse cursor position to point on element: // TODO: Take into account existing rotation
-    this.oldElemX = e.clientX - parseInt(this._dragContainer.offsetLeft);
-    this.oldElemY = e.clientY - parseInt(this._dragContainer.offsetTop);
-    // Set handlers for mouse moving and button being released: // TODO: Test handlers for device touches.
-    this.onmousemove = this._onMouseMove;
-    this.onmouseup = this._onMouseUp;
-    this.ontouchmove = this._onMouseMove;
-    this.ontouchend = this._onMouseUp;
+    // Get the click/touch position position at startup:
+    this.oldMouseX = clientX;
+    this.oldMouseY = clientY;
+
+    // Convert click/touch position to point on element: // TODO: Take into account existing rotation
+    this.oldElemX = clientX - parseInt(this._dragContainer.offsetLeft);
+    this.oldElemY = clientY - parseInt(this._dragContainer.offsetTop);
   }
 
   _onMouseMove(e) {
     e = e || window.event;
     e.preventDefault();
+    this._dragMove(e.clientX, e.clientY);
+  }
+  _onTouchMove(e) {
+    e = e || window.event;
+    e.preventDefault();
+    this._dragMove(e.touches[0].clientX, e.touches[0].clientY);
+  }
+  _dragMove(clientX, clientY) {
+    // Function to handle common functionality for mouse and touch.
     // Calculate the change in cursor position:
-    const deltaMouseX = e.clientX - this.oldMouseX;
-    const deltaMouseY = e.clientY - this.oldMouseY;
+    const deltaMouseX = clientX - this.oldMouseX;
+    const deltaMouseY = clientY - this.oldMouseY;
     const newElemX = this.oldElemX + deltaMouseX;
     const newElemY = this.oldElemY + deltaMouseY;
 
@@ -144,11 +164,18 @@ class Profile extends LitElement {
   }
 
   _onMouseUp() {
-    // TODO: Animate the element bouncing back to its original position.
     // Stop moving the element when mouse button is released:
     this.onmousemove = null;
     this.onmouseup = null;
-    
+    this._dragEnd();
+  }
+  _onTouchEnd() {
+    // Stop moving the element when mouse button is released:
+    this.ontouchmove = null;
+    this.ontouchend = null;
+    this._dragEnd();
+  }
+  _dragEnd() {
     if (this._swipeResult !== 'none') {
       const event = new CustomEvent('profileSwipeEvent', { 
         detail: this._swipeResult,

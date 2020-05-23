@@ -85,8 +85,9 @@ class ProfileCollection extends LitElement {
   }
 
   _handleProfileSwipe() {
-    const swipedProfile = this.profiles.slice(1,1);
+    const swipedProfile = this.profiles.pop();
     console.log(`swipedProfile = ${JSON.stringify(swipedProfile)}`);
+    console.log(`profiles = ${JSON.stringify(this.profiles)}`);
     
     const fadeTime = 0.3; // in seconds.
     const profileElements = this.shadowRoot.querySelectorAll('profile-element');
