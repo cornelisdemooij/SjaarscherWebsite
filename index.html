@@ -18,14 +18,15 @@
   <script type='module' src='sideNavigationElement.js'></script>
 </head>
 <body>
-  <div id="overlay"></div>
+  <div id="overlay" onclick="closeNav()"></div>
 
   <side-navigation-element id="side-navigation"></side-navigation-element>
 
   <div id="main">
     <div id=fixed-buttons>
       <img id="menu-icon" src="assets/icons/bars.svg" onclick="openNav()">
-      <img id="search-icon" src="assets/icons/search.svg">
+      <input id="search-box" type="text" placeholder=""></input>
+      <img id="search-icon" src="assets/icons/search.svg" onclick="focusSearch()">
     </div>
 
     <profile-element firstName="Amanda" lastName="Broekema" age=19></profile-element>
@@ -44,7 +45,6 @@
     function openNav() {
       document.getElementById("side-navigation").style.width = "250px";
       document.getElementById("main").style.marginLeft = "250px";
-      //document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
       document.getElementById("overlay").style.display = "block";
     }
 
@@ -52,8 +52,18 @@
     function closeNav() {
       document.getElementById("side-navigation").style.width = "0";
       document.getElementById("main").style.marginLeft = "0";
-      //document.body.style.backgroundColor = "white";
       document.getElementById("overlay").style.display = "none";
+    }
+
+    function focusSearch() {
+      console.log("in focusSearch()")
+      const searchBox = document.getElementById("search-box");
+      searchBox.focus();
+    }
+    function unfocusSearch() {
+      console.log("in unfocusSearch()")
+      const searchBox = document.getElementById("search-box");
+      searchBox.blur();
     }
   </script>
 </body>

@@ -5,26 +5,23 @@ class SideNavigationElement extends LitElement {
     return css`
       /* The navigation menu links */
       a {
-        padding: 8px 16px 8px 16px;
+        padding: 8px 16px;
         text-decoration: none;
         font-size: 25px;
-        color: #FFFFFF;
+        color: #222222;
         display: block;
         transition: 0.3s;
       }
 
       /* When you mouse over the navigation links, change their color */
       a:hover {
-        color: #83082b;
+        color: #970931;
+        text-decoration: underline;
       }
 
       /* Position and style the close button (top right corner) */
       .closebtn {
-        position: absolute;
-        top: 0;
-        right: 25px;
-        font-size: 36px;
-        margin-left: 50px;
+        font-size: 25px;
       }
 
       /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
@@ -34,27 +31,17 @@ class SideNavigationElement extends LitElement {
     `;
   }
 
-  static get properties() {
-    return {
-    };
-  }
-
-  constructor() {
-    super();
-  }
-
   render() {
     return html`  
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a href="#">Swipe</a>
+      <a href="#">Unions</a>
+      <a href="#">Students</a>
       <a href="#">Chat</a>
+      <a href="#">Events</a>
       <a href="#">Profile</a>
+      <a href="#">Settings</a>
       <a href="#">Contact</a>
     `;
-  }
-  
-  firstUpdated() {
-    
   }
 }
 
