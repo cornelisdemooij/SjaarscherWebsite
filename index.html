@@ -14,30 +14,47 @@
   <meta name="theme-color" content="#5f051f">
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 
-  <script type='module' src='profileComponent.js'></script>
+  <script type='module' src='profileElement.js'></script>
+  <script type='module' src='sideNavigationElement.js'></script>
 </head>
 <body>
-  <div id="side-navigation">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
-  </div>
+  <div id="overlay"></div>
 
-  <div id=fixed-buttons>
-    <img id="menu-icon" src="assets/icons/bars.svg" onclick="openNav()">
-    <img id="search-icon" src="assets/icons/search.svg">
-  </div>
+  <side-navigation-element id="side-navigation"></side-navigation-element>
 
-  <profile-element firstName="Amanda" lastName="Broekema" age=19></profile-element>
-  <profile-element firstName="Bert" age=19></profile-element>
-  <profile-element firstName="Clarissa" lastName="de Baars"></profile-element>
-  <profile-element firstName="Dave" lastName="Johnson" age=18></profile-element>
-  <profile-element firstName="Ellie" lastName="van der Vlucht"></profile-element>
-  <profile-element firstName="Freddy" lastName="van 't Veld" age=17></profile-element>
-  <profile-element firstName="Gert" lastName="Smit" age=18></profile-element>
+  <div id="main">
+    <div id=fixed-buttons>
+      <img id="menu-icon" src="assets/icons/bars.svg" onclick="openNav()">
+      <img id="search-icon" src="assets/icons/search.svg">
+    </div>
+
+    <profile-element firstName="Amanda" lastName="Broekema" age=19></profile-element>
+    <profile-element firstName="Bert" age=19></profile-element>
+    <profile-element firstName="Clarissa" lastName="de Baars"></profile-element>
+    <profile-element firstName="Dave" lastName="Johnson" age=18></profile-element>
+    <profile-element firstName="Ellie" lastName="van der Vlucht"></profile-element>
+    <profile-element firstName="Freddy" lastName="van 't Veld" age=17></profile-element>
+    <profile-element firstName="Gert" lastName="Smit" age=18></profile-element>
+  </div>
 
   <script type='module' src='index.js'></script>
+
+  <script>
+    /* Set the width of the side navigation to 250px and the left margin of the page content to 250px and add a black background color to body */
+    function openNav() {
+      document.getElementById("side-navigation").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+      //document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+      document.getElementById("overlay").style.display = "block";
+    }
+
+    /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
+    function closeNav() {
+      document.getElementById("side-navigation").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+      //document.body.style.backgroundColor = "white";
+      document.getElementById("overlay").style.display = "none";
+    }
+  </script>
 </body>
 </html>

@@ -41,6 +41,7 @@ class ProfileElement extends LitElement {
         color: white;
         background-color: transparent;
         font-size: 32px;
+        text-shadow: 3px 3px 5px #000000;
       }
     `;
   }
