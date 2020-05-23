@@ -1,6 +1,6 @@
 import {LitElement, html, css} from 'lit-element';
 
-class ProfileElement extends LitElement {
+class Profile extends LitElement {
   static get styles() {
     return css`
       .drag-container {
@@ -73,7 +73,7 @@ class ProfileElement extends LitElement {
     return html`  
       <div class="drag-container">
         <div class="drag-container-content">
-          <div class="image-container" @mousedown=${this._onMouseDown}>
+          <div class="image-container" @mousedown=${this._onMouseDown} @touchstart=${this._onMouseDown}>
             <img 
               class="profile-image"
               src="assets/profilePictures/${this.firstName}/${this.firstName.toLowerCase()}.jpg" 
@@ -112,9 +112,11 @@ class ProfileElement extends LitElement {
     // Convert mouse cursor position to point on element: // TODO: Take into account existing rotation
     this.oldElemX = e.clientX - parseInt(this._dragContainer.offsetLeft);
     this.oldElemY = e.clientY - parseInt(this._dragContainer.offsetTop);
-    // Set handlers for mouse moving and button being released: // TODO: Add handlers for device touches.
+    // Set handlers for mouse moving and button being released: // TODO: Test handlers for device touches.
     this.onmousemove = this._onMouseMove;
     this.onmouseup = this._onMouseUp;
+    this.ontouchmove = this._onMouseMove;
+    this.ontouchend = this._onMouseUp;
   }
 
   _onMouseMove(e) {
@@ -146,8 +148,6 @@ class ProfileElement extends LitElement {
     // Stop moving the element when mouse button is released:
     this.onmousemove = null;
     this.onmouseup = null;
-    this._dragContainer.style.transition = '0.3s';
-    this._dragContainer.style.transform = `matrix(1, 0, 0, 1, 0, 0)`;
     
     if (this._swipeResult !== 'none') {
       const event = new CustomEvent('profileSwipeEvent', { 
@@ -156,8 +156,11 @@ class ProfileElement extends LitElement {
         composed: true 
       });
       this.dispatchEvent(event);
+    } else {
+      this._dragContainer.style.transition = '0.3s';
+      this._dragContainer.style.transform = 'matrix(1, 0, 0, 1, 0, 0)';
     }
   }
 }
 
-customElements.define('profile-element', ProfileElement);
+customElements.define('profile-element', Profile);

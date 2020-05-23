@@ -14,8 +14,9 @@
   <meta name="theme-color" content="#5f051f">
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 
-  <script type='module' src='profileElement.js'></script>
-  <script type='module' src='sideNavigationElement.js'></script>
+  <script type='module' src='elements/profile.js'></script>
+  <script type='module' src='elements/profileCollection.js'></script>
+  <script type='module' src='elements/sideNavigation.js'></script>
 </head>
 <body>
   <div id="overlay" onclick="closeNav()"></div>
@@ -29,13 +30,7 @@
       <img id="search-icon" src="assets/icons/search.svg" onclick="focusSearch()">
     </div>
 
-    <profile-element firstName="Amanda" lastName="Broekema" age=19></profile-element>
-    <profile-element firstName="Bert" age=19></profile-element>
-    <profile-element firstName="Clarissa" lastName="de Baars"></profile-element>
-    <profile-element firstName="Dave" lastName="Johnson" age=18></profile-element>
-    <profile-element firstName="Ellie" lastName="van der Vlucht"></profile-element>
-    <profile-element firstName="Freddy" lastName="van 't Veld" age=17></profile-element>
-    <profile-element firstName="Gert" lastName="Smit" age=18></profile-element>
+    <profile-collection-element></profile-collection-element>
   </div>
 
   <script type='module' src='index.js'></script>

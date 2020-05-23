@@ -1,6 +1,6 @@
 import {LitElement, html, css} from 'lit-element';
 
-class SideNavigationElement extends LitElement {
+class SideNavigation extends LitElement {
   static get styles() {
     return css`
       /* The navigation menu links */
@@ -14,9 +14,10 @@ class SideNavigationElement extends LitElement {
       }
 
       /* When you mouse over the navigation links, change their color */
-      a:hover {
-        color: #970931;
-        text-decoration: underline;
+      a:hover, a:active, a:focus {
+        background-color: #970931;
+        color: #FFFFFF;
+        outline: none;
       }
 
       /* Position and style the close button (top right corner) */
@@ -45,4 +46,4 @@ class SideNavigationElement extends LitElement {
   }
 }
 
-customElements.define('side-navigation-element', SideNavigationElement);
+customElements.define('side-navigation-element', SideNavigation);
