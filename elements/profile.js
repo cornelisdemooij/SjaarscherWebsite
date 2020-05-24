@@ -6,12 +6,11 @@ class Profile extends LitElement {
       .drag-container {
         margin: 0 auto;
         width: 600px;
-        height: 600px;
         transform-origin: bottom center;
       }
       @media (max-width: 600px) {
         .drag-container {
-          max-width: 100%;
+          width: 100%;
         }
       }
       .drag-container-content {
@@ -20,6 +19,11 @@ class Profile extends LitElement {
         width: 100%;
         height: 600px;
         overflow: hidden;
+      }
+      @media (max-width: 600px) {
+        .drag-container-content {
+          height: 100vw;
+        }
       }
       .drag-container-content img {
         position: relative;
@@ -31,10 +35,10 @@ class Profile extends LitElement {
       .image-container {
         position: relative;
         color: white;
-        height: 600px;
+        height: 100%;
       }
       .profile-image {
-        height: 600px;
+        height: 100%;
         object-fit: cover;
       }
       .profile-name {
@@ -50,8 +54,8 @@ class Profile extends LitElement {
       }
 
       .info-container {
-        width: 580px;
-        height: calc(100vh - 620px);
+        width: calc(100%-20px);
+        height: calc(100vh - 100vw - 20px);
         overflow: scroll;
         margin: 0 auto;
         padding: 10px;
@@ -66,14 +70,17 @@ class Profile extends LitElement {
         width: 0px;
         background: transparent;
       }
-      @media (max-width: 600px) {
+      @media (min-width: 602px) {
         .info-container {
-          max-width: 100%;
+          width: 578px;
+          height: calc(100vh - 600px - 20px);
+          border-left: solid 1px #BBBBBB;
+          border-right: solid 1px #BBBBBB;
         }
       }
       @media (max-height: 750px) {
         .info-container {
-          height: 150px;
+          min-height: 150px;
         }
       }
       .info-container > * {
