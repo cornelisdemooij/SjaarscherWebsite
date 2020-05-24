@@ -5,6 +5,11 @@
   background-color: #FFFFFF;
 }
 
+@font-face {
+  font-family: 'Helvetica Neue';
+  src: url(/assets/fonts/HelveticaNeueMedium.ttf) format("truetype");
+}
+
 html, body {
   height: 100%;
   overflow: scroll;

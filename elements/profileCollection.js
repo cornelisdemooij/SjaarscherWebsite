@@ -5,8 +5,7 @@ class ProfileCollection extends LitElement {
     return css`
       profile-element {
         position: absolute;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 0 auto;
         left: 0;
         right: 0;
         text-align: center;
@@ -28,24 +27,75 @@ class ProfileCollection extends LitElement {
         firstName: 'Amanda',
         lastName: 'Broekema',
         age: 19,
+        study: 'Industrial Design',
+        distance: '2 km',
+        description: 'Live. Laugh. Love. :D'
       },
       {
         firstName: 'Bert',
         lastName: '',
         age: 19,
+        study: 'HBO Bachelor Lerarenopleiding Wiskunde',
+        description: 'Mijn huisgenoot heet inderdaad Ernie.'
       },
       {
         firstName: 'Clarissa',
         lastName: 'de Baars',
+        study: 'Life Science & Technology',
+        distance: '1.5 km',
+        description: 'Mijn ideale date? Met een kleine bootje het meer op en de hele dag vissen. 🐟'
       },
       {
         firstName: 'Dave',
         lastName: 'Johnson',
         age: 18,
+        distance: '450 m',
+        description: 'Cave Johnson is my dad #portal #bestgame'
       },
       {
         firstName: 'Ellie',
-        lastName: 'van der Vlucht'
+        lastName: 'van der Vlucht',
+        description: `Yes, that is my pug. #dogmom
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving
+        superlange beschrijving`,
       },
       {
         firstName: 'Freddy',
@@ -56,6 +106,9 @@ class ProfileCollection extends LitElement {
         firstName: 'Gert',
         lastName: 'Smit',
         age: 18,
+        study: 'Klinische Technologie',
+        distance: '750 m',
+        description: 'Aankomend werktuigbouw eerstejaars'
       },
     ];
   }
@@ -67,6 +120,9 @@ class ProfileCollection extends LitElement {
           firstName="${profile.firstName}"
           lastName="${profile.lastName}"
           age=${profile.age}
+          study=${profile.study ? profile.study : ''}
+          distance=${profile.distance ? profile.distance : ''}
+          description=${profile.description ? profile.description : ''}
         ></profile-element>
       `)}
     `;

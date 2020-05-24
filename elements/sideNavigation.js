@@ -39,9 +39,9 @@ class SideNavigation extends LitElement {
       <a href="#">Students</a>
       <a href="#">Chat</a>
       <a href="#">Events</a>
-      <a href="#">Profile</a>
+      <a href="#">Account</a>
       <a href="#">Settings</a>
-      <a href="#">Contact</a>
+      <a href="#">About</a>
     `;
   }
 }

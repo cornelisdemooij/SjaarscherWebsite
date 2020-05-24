@@ -4,9 +4,9 @@ class Profile extends LitElement {
   static get styles() {
     return css`
       .drag-container {
-        position: relative;
-        display: inline-block;
+        margin: 0 auto;
         width: 600px;
+        height: 600px;
         transform-origin: bottom center;
       }
       @media (max-width: 600px) {
@@ -18,10 +18,12 @@ class Profile extends LitElement {
         position: relative;
         cursor: move;
         width: 100%;
+        height: 600px;
         overflow: hidden;
       }
       .drag-container-content img {
         position: relative;
+        height: 600px;
         width: 100%;
       }
 
@@ -29,6 +31,7 @@ class Profile extends LitElement {
       .image-container {
         position: relative;
         color: white;
+        height: 600px;
       }
       .profile-image {
         height: 600px;
@@ -36,12 +39,48 @@ class Profile extends LitElement {
       }
       .profile-name {
         position: absolute;
-        left: 18px;
-        bottom: 12px;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        text-align: left;
         color: white;
         background-color: transparent;
         font-size: 32px;
         text-shadow: 3px 3px 5px #000000;
+      }
+
+      .info-container {
+        width: 580px;
+        height: calc(100vh - 620px);
+        overflow: scroll;
+        margin: 0 auto;
+        padding: 10px;
+        background-color: #FFFFFF;
+        text-align: left;
+        font-size: 21px;
+        color: #333333;
+        overflow-x: hidden;
+        scrollbar-width: none;
+      }
+      .info-container::-webkit-scrollbar {
+        width: 0px;
+        background: transparent;
+      }
+      @media (max-width: 600px) {
+        .info-container {
+          max-width: 100%;
+        }
+      }
+      @media (max-height: 750px) {
+        .info-container {
+          height: 150px;
+        }
+      }
+      .info-container > * {
+        margin-bottom: 5px;
+      }
+      .info-divider {
+        border-top: solid 1px #BBBBBB;
       }
     `;
   }
@@ -51,6 +90,9 @@ class Profile extends LitElement {
       firstName: { type: String },
       lastName: { type: String, value: '' },
       age: { type: Number },
+      study: { type: String, value: '' },
+      distance: { type: String, value: '' },
+      description: { type: String, value: '' },
       
       _oldMouseX: { type: Number },
       _oldMouseY: { type: Number },
@@ -83,6 +125,15 @@ class Profile extends LitElement {
             <div class="profile-name">${this.firstName} ${this.lastName} ${this.age ? '(' + this.age + ')' : ''}</div>
           </div>
         </div>
+      </div>
+      <div class="info-container">
+        ${this.study ? html`<div class="study">${this.study}</div>` : ''}
+        ${this.distance ? html`<div class="distance">${this.distance}</div>` : ''}
+        ${
+          (this.study || this.distance) && (this.description) ?
+          html`<div class="info-divider"></div>` : ''
+        }
+        ${this.description ? html`<div class="description">${this.description}</div>` : ''}
       </div>
     `;
   }
