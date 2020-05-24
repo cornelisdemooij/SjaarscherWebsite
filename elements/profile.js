@@ -105,10 +105,7 @@ class Profile extends LitElement {
 
   constructor() {
     super();
-    this.oldMouseX = 0;
-    this.oldMouseY = 0;
-    this.oldElemX = 0;
-    this.oldElemY = 0;
+    this._swipeResult = 'none';
   }
 
   render() {
@@ -203,12 +200,34 @@ class Profile extends LitElement {
     const a2 = Math.atan2(newElemX - this.width/2, this.height - newElemY);
     const a = a1+a2;
     if (a > 0.5) {
-      console.log('like');
+      if (this._swipeResult === 'none') {
+        const event = new CustomEvent('profileLeanEvent', { 
+          detail: 'like',
+          bubbles: true, 
+          composed: true 
+        });
+        this.dispatchEvent(event);
+      }
       this._swipeResult = 'like';
     } else if (a < -0.5) {
-      console.log('dislike');
+      if (this._swipeResult === 'none') {
+        const event = new CustomEvent('profileLeanEvent', { 
+          detail: 'dislike',
+          bubbles: true, 
+          composed: true 
+        });
+        this.dispatchEvent(event);
+      }
       this._swipeResult = 'dislike';
     } else {
+      if (this._swipeResult !== 'none') {
+        const event = new CustomEvent('profileUnleanEvent', { 
+          detail: 'none',
+          bubbles: true, 
+          composed: true 
+        });
+        this.dispatchEvent(event);
+      }
       this._swipeResult = 'none';
     }
     this.setRotation(a);
@@ -227,6 +246,12 @@ class Profile extends LitElement {
     this._dragEnd();
   }
   _dragEnd() {
+    const event = new CustomEvent('profileUnleanEvent', { 
+      detail: 'none',
+      bubbles: true, 
+      composed: true 
+    });
+    this.dispatchEvent(event);
     if (this._swipeResult !== 'none') {
       const event = new CustomEvent('profileSwipeEvent', { 
         detail: this._swipeResult,

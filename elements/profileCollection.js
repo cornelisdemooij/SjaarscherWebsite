@@ -11,6 +11,36 @@ class ProfileCollection extends LitElement {
         text-align: center;
         background-color: transparent;
       }
+
+      #hint-container {
+        position: relative;
+        height: 0;
+        max-width: 600px;
+        z-index: 1;
+        margin: 0 auto;
+      }
+      @media (max-width: 600px) {
+        #hint-container {
+          max-width: 100%;
+        }
+      }
+      .hint {
+        position: absolute;
+        opacity: 0;
+        transition: none;
+        font-size: 48px;
+        top: 290px;
+      }
+      #dislike-hint {
+        color: #a73030;
+        left: 20px;
+        transform: rotate(-20deg);
+      }
+      #like-hint {
+        color: #60a730;
+        right: 20px;
+        transform: rotate(20deg);
+      }
     `;
   }
 
@@ -125,25 +155,22 @@ class ProfileCollection extends LitElement {
           description=${profile.description ? profile.description : ''}
         ></profile-element>
       `)}
+      <div id='hint-container'>
+        <div id='dislike-hint' class='hint'>NOPE</div>
+        <div id='like-hint' class='hint'>LIKE</div>
+      </div>
     `;
   }
   
   firstUpdated() {
     this.addEventListener("profileSwipeEvent", this._handleProfileSwipe);
-  }
-
-  _shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
+    this.addEventListener("profileLeanEvent", this._handleProfileLean);
+    this.addEventListener("profileUnleanEvent", this._handleProfileUnlean);
   }
 
   _handleProfileSwipe() {
     const swipedProfile = this.profiles.pop();
     console.log(`swipedProfile = ${JSON.stringify(swipedProfile)}`);
-    console.log(`profiles = ${JSON.stringify(this.profiles)}`);
     
     const fadeTime = 0.3; // in seconds.
     const profileElements = this.shadowRoot.querySelectorAll('profile-element');
@@ -154,6 +181,30 @@ class ProfileCollection extends LitElement {
       this.requestUpdate();
       swipedProfileElement.parentNode.removeChild(swipedProfileElement);
     }, fadeTime*1000);
+  }
+
+  _handleProfileLean(e) {
+    let hint;
+    if (e.detail === 'like') {
+      hint = this.shadowRoot.querySelector('#like-hint');
+    } else if (e.detail === 'dislike') {
+      hint = this.shadowRoot.querySelector('#dislike-hint');
+    }
+    if (hint) {
+      hint.style.transition = 'none';
+      hint.style.opacity = 1;
+    }
+  }
+
+  _handleProfileUnlean(e) {
+    if (e.detail === 'none') {
+      const likehint = this.shadowRoot.querySelector('#like-hint');
+      const dislikehint = this.shadowRoot.querySelector('#dislike-hint');
+      likehint.style.transition = '0.3s';
+      dislikehint.style.transition = '0.3s';
+      likehint.style.opacity = 0;
+      dislikehint.style.opacity = 0;
+    }
   }
 }
 
