@@ -18,6 +18,7 @@ class ProfileCollection extends LitElement {
         max-width: 600px;
         z-index: 1;
         margin: 0 auto;
+        pointer-events: none; /* ignore mouse/touch, otherwise hints interfere with swipes */
       }
       @media (max-width: 600px) {
         #hint-container {

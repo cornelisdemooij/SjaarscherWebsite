@@ -41,13 +41,27 @@ class Profile extends LitElement {
       .profile-name {
         position: absolute;
         left: 10px;
-        right: 10px;
+        right: 50px;
         bottom: 10px;
         text-align: left;
         color: white;
         background-color: transparent;
         font-size: 32px;
         text-shadow: 3px 3px 5px #000000;
+      }
+      #share-icon {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        height: 30px;
+        width: 30px;
+        background-color: transparent;
+        cursor: pointer;
+        transition: 0.3s;
+        fill: white;
+      }
+      #share-icon:hover {
+        fill: #970931;
       }
 
       .info-container {
@@ -113,7 +127,7 @@ class Profile extends LitElement {
   }
 
   render() {
-    return html`  
+    return html`
       <div class="drag-container">
         <div class="drag-container-content">
           <div class="image-container" @mousedown=${this._onMouseDown} @touchstart=${this._onTouchStart}>
@@ -124,6 +138,9 @@ class Profile extends LitElement {
               title="${this.firstName}"
             >
             <div class="profile-name">${this.firstName} ${this.lastName} ${this.age ? '(' + this.age + ')' : ''}</div>
+            <svg id="share-icon" viewBox="0 0 135.47 118.53">
+              <path d="M 79.898019,-0.96433064 33.330298,-41.177029 c -4.076171,-3.520281 -10.500519,-0.662517 -10.500519,4.805891 v 21.18069 c -42.499756,0.486569 -76.2,9.0043004 -76.2,49.280762 0,16.256263 10.472473,32.360923 22.048523,40.780763 3.612356,2.62757 8.760619,-0.67019 7.428706,-4.92946 -11.997267,-38.368019 5.690394,-48.553948 46.722771,-49.144234 v 23.260844 c 0,5.47687 6.429375,8.32194 10.500519,4.80589 L 79.898019,8.6474524 c 2.92921,-2.529946 2.93317,-7.078398 0,-9.61178304 z" transform="translate(53.370221,42.725081)"/>
+            </svg>
           </div>
         </div>
       </div>
@@ -205,32 +222,17 @@ class Profile extends LitElement {
     const a = a1+a2;
     if (a > 0.5) {
       if (this._swipeResult === 'none') {
-        const event = new CustomEvent('profileLeanEvent', { 
-          detail: 'like',
-          bubbles: true, 
-          composed: true 
-        });
-        this.dispatchEvent(event);
+        this._dispatchCustomEvent('profileLeanEvent', 'like');
       }
       this._swipeResult = 'like';
     } else if (a < -0.5) {
       if (this._swipeResult === 'none') {
-        const event = new CustomEvent('profileLeanEvent', { 
-          detail: 'dislike',
-          bubbles: true, 
-          composed: true 
-        });
-        this.dispatchEvent(event);
+        this._dispatchCustomEvent('profileLeanEvent', 'dislike');
       }
       this._swipeResult = 'dislike';
     } else {
       if (this._swipeResult !== 'none') {
-        const event = new CustomEvent('profileUnleanEvent', { 
-          detail: 'none',
-          bubbles: true, 
-          composed: true 
-        });
-        this.dispatchEvent(event);
+        this._dispatchCustomEvent('profileUnleanEvent', 'none');
       }
       this._swipeResult = 'none';
     }
@@ -250,23 +252,22 @@ class Profile extends LitElement {
     this._dragEnd();
   }
   _dragEnd() {
-    const event = new CustomEvent('profileUnleanEvent', { 
-      detail: 'none',
-      bubbles: true, 
-      composed: true 
-    });
-    this.dispatchEvent(event);
+    this._dispatchCustomEvent('profileUnleanEvent', 'none');
     if (this._swipeResult !== 'none') {
-      const event = new CustomEvent('profileSwipeEvent', { 
-        detail: this._swipeResult,
-        bubbles: true, 
-        composed: true 
-      });
-      this.dispatchEvent(event);
+      this._dispatchCustomEvent('profileSwipeEvent', this._swipeResult);
     } else {
       this._dragContainer.style.transition = '0.3s';
       this._dragContainer.style.transform = 'matrix(1, 0, 0, 1, 0, 0)';
     }
+  }
+
+  _dispatchCustomEvent(name, detail) {
+    const event = new CustomEvent(name, { 
+      detail,
+      bubbles: true,
+      composed: true,
+    });
+    this.dispatchEvent(event);
   }
 }
 
