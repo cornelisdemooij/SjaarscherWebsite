@@ -31,6 +31,11 @@ class ProfileCollection extends LitElement {
         font-size: 48px;
         top: 290px;
       }
+      @media (max-width: 600px) {
+        .hint {
+          top: calc(50vw - 10px);
+        }
+      }
       #dislike-hint {
         color: #a73030;
         left: 20px;
