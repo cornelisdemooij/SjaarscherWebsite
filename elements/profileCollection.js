@@ -66,25 +66,29 @@ class ProfileCollection extends LitElement {
         lastName: '',
         age: 19,
         study: 'HBO Bachelor Lerarenopleiding Wiskunde',
-        description: 'Mijn huisgenoot heet inderdaad Ernie.'
+        description: 'Mijn huisgenoot heet inderdaad Ernie. Ik hou van getallen, kleuren en vogels.'
       },
       {
         firstName: 'Clarissa',
         lastName: 'de Baars',
         study: 'Life Science & Technology',
         distance: '1.5 km',
-        description: 'Mijn ideale date? Met een kleine bootje het meer op en de hele dag vissen. 🐟'
+        description: 'Mijn ideale date? Met een klein bootje het meer op en de hele dag vissen. 🐟'
       },
       {
         firstName: 'Dave',
         lastName: 'Johnson',
         age: 18,
+        study: 'Computer Science and Engineering',
         distance: '450 m',
         description: 'Cave Johnson is my dad #portal #bestgame'
       },
       {
         firstName: 'Ellie',
         lastName: 'van der Vlucht',
+        age: 19,
+        study: 'Electrical Engineering',
+        distance: '300 m',
         description: `Yes, that is my pug. #dogmom
         superlange beschrijving
         superlange beschrijving
@@ -131,14 +135,16 @@ class ProfileCollection extends LitElement {
         firstName: 'Freddy',
         lastName: 'van \'t Veld',
         age: 17,
+        study: 'Bouwkunde',
+        description: 'Afgewezen voor de kunstacademie :('
       },
       {
         firstName: 'Gert',
         lastName: 'Smit',
         age: 18,
-        study: 'Klinische Technologie',
+        study: 'Werktuigbouwkunde',
         distance: '750 m',
-        description: 'Aankomend werktuigbouw eerstejaars'
+        description: 'Aankomend werktuigbouw eerstejaars. Ik speel akoestische gitaar en maak aardewerk'
       },
     ];
   }

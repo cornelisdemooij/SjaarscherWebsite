@@ -25,21 +25,18 @@ class Profile extends LitElement {
           height: 100vw;
         }
       }
-      .drag-container-content img {
-        position: relative;
-        height: 600px;
-        width: 100%;
-      }
 
       /* Profile */
       .image-container {
-        position: relative;
         color: white;
         height: 100%;
+        width: 100%;
       }
       .profile-image {
         height: 100%;
+        width: 100%;
         object-fit: cover;
+        object-position: center;
       }
       .profile-name {
         position: absolute;
