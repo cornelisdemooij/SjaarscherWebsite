@@ -133,8 +133,8 @@ class Profile extends LitElement {
           <div class="image-container" @mousedown=${this._onMouseDown} @touchstart=${this._onTouchStart}>
             <img 
               class="profile-image"
-              src="assets/profilePictures/${this.firstName}/${this.firstName.toLowerCase()}.jpg" 
-              alt="${this.firstName}" 
+              src="https://cdn.sjaarscher.nl/profile_images/${this.firstName.toLowerCase()}.jpg"
+              alt="${this.firstName}"
               title="${this.firstName}"
             >
             <div class="profile-name">${this.firstName} ${this.lastName} ${this.age ? '(' + this.age + ')' : ''}</div>
