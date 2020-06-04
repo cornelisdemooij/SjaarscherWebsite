@@ -1,6 +1,6 @@
 import {LitElement, html, css} from 'lit-element';
 
-class Profile extends LitElement {
+class StudentProfile extends LitElement {
   static get styles() {
     return css`
       .drag-container {
@@ -271,4 +271,4 @@ class Profile extends LitElement {
   }
 }
 
-customElements.define('profile-element', Profile);
+customElements.define('student-profile', StudentProfile);

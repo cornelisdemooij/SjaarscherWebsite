@@ -14,14 +14,14 @@
   <meta name="theme-color" content="#5f051f">
   <link rel="stylesheet" type="text/css" href="css/styles.css">
 
-  <script type='module' src='elements/profile.js'></script>
-  <script type='module' src='elements/profileCollection.js'></script>
-  <script type='module' src='elements/sideNavigation.js'></script>
+  <script type='module' src='elements/StudentProfile.js'></script>
+  <script type='module' src='elements/StudentPage.js'></script>
+  <script type='module' src='elements/SideNavigation.js'></script>
 </head>
 <body>
   <div id="overlay" onclick="closeNav()"></div>
 
-  <side-navigation-element id="side-navigation"></side-navigation-element>
+  <side-navigation id="side-navigation"></side-navigation>
 
   <div id="main">
     <div id=fixed-buttons>
@@ -34,7 +34,7 @@
       </svg>
     </div>
 
-    <profile-collection-element></profile-collection-element>
+    <student-page></student-page>
   </div>
 
   <script type='module' src='index.js'></script>

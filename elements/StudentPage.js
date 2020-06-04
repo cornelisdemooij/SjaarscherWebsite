@@ -1,9 +1,9 @@
 import {LitElement, html, css} from 'lit-element';
 
-class ProfileCollection extends LitElement {
+class StudentPage extends LitElement {
   static get styles() {
     return css`
-      profile-element {
+      student-profile {
         position: absolute;
         margin: 0 auto;
         left: 0;
@@ -158,14 +158,14 @@ class ProfileCollection extends LitElement {
   render() {
     return html`
       ${this.profiles.map(profile => html`
-        <profile-element
+        <student-profile
           firstName="${profile.firstName}"
           lastName="${profile.lastName}"
           age=${profile.age}
           study=${profile.study ? profile.study : ''}
           distance=${profile.distance ? profile.distance : ''}
           description=${profile.description ? profile.description : ''}
-        ></profile-element>
+        ></student-profile>
       `)}
       <div id='hint-container'>
         <div id='dislike-hint' class='hint'>NOPE</div>
@@ -185,7 +185,7 @@ class ProfileCollection extends LitElement {
     console.log(`swipedProfile = ${JSON.stringify(swipedProfile)}`);
     
     const fadeTime = 0.3; // in seconds.
-    const profileElements = this.shadowRoot.querySelectorAll('profile-element');
+    const profileElements = this.shadowRoot.querySelectorAll('student-profile');
     const swipedProfileElement = profileElements[profileElements.length-1];
     swipedProfileElement.style.transition = `${fadeTime}s`;
     swipedProfileElement.style.opacity = '0';
@@ -220,4 +220,4 @@ class ProfileCollection extends LitElement {
   }
 }
 
-customElements.define('profile-collection-element', ProfileCollection);
+customElements.define('student-page', StudentPage);

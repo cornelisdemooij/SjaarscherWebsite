@@ -49,4 +49,4 @@ class SideNavigation extends LitElement {
   }
 }
 
-customElements.define('side-navigation-element', SideNavigation);
+customElements.define('side-navigation', SideNavigation);
