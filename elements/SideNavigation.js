@@ -38,6 +38,7 @@ class SideNavigation extends LitElement {
   render() {
     return html`  
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="home">Home</a>
       <a href="unions">Verenigingen</a>
       <a href="students">Studenten</a>
       <a href="chat">Chat</a>

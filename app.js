@@ -11,16 +11,21 @@ const routes = {
 };
 
 const rootDiv = document.getElementById('root');
-const sjaarscherInterest = getCookie('sjaarscher-interest');
-if (sjaarscherInterest === 'unions') {
-  onNavigate('/unions');
-} else if (sjaarscherInterest === 'students') {
-  onNavigate('/students');
+const path = window.location.pathname;
+if (path === '/') {
+  const sjaarscherInterest = getCookie('sjaarscher-interest');
+  if (sjaarscherInterest === 'unions') {
+    navigate('/unions');
+  } else if (sjaarscherInterest === 'students') {
+    navigate('/students');
+  } else {
+    navigate('/');
+  }
 } else {
-  onNavigate('/');
+  navigate(path);
 }
 
-function onNavigate(pathname) {
+function navigate(pathname) {
   window.history.pushState(
     {},
     pathname,
@@ -28,35 +33,39 @@ function onNavigate(pathname) {
   )
   rootDiv.innerHTML = routes[pathname]
 }
+function onNavigate(e) {
+  console.log(e);
+  if (e && e.detail) {
+    navigate(e.detail);
+  }
+}
+document.addEventListener("navigate", onNavigate);
 
 window.onpopstate = () => {
   rootDiv.innerHTML = routes[window.location.pathname]
 }
 
 /* Set the width of the side navigation to 250px and the left margin of the page content to 250px and add a black background color to body */
-function openNav() {
+function onOpenNav() {
   document.getElementById("side-navigation").style.width = "250px";
   document.getElementById("main").style.marginLeft = "250px";
   document.getElementById("overlay").style.display = "block";
 }
+document.addEventListener("openNav", onOpenNav);
 
 /* Set the width of the side navigation to 0 and the left margin of the page content to 0, and the background color of body to white */
-function closeNav() {
+function onCloseNav() {
   document.getElementById("side-navigation").style.width = "0";
   document.getElementById("main").style.marginLeft = "0";
   document.getElementById("overlay").style.display = "none";
 }
+document.addEventListener("closeNav", onCloseNav);
 
-function focusSearch() {
-  console.log("in focusSearch()")
+function onFocusSearch() {
   const searchBox = document.getElementById("search-box");
   searchBox.focus();
 }
-function unfocusSearch() {
-  console.log("in unfocusSearch()")
-  const searchBox = document.getElementById("search-box");
-  searchBox.blur();
-}
+document.addEventListener("focusSearch", onFocusSearch);
 
 function getCookie(cname) {
   var name = cname + "=";
