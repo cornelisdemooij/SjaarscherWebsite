@@ -11,7 +11,14 @@ const routes = {
 };
 
 const rootDiv = document.getElementById('root');
-rootDiv.innerHTML = routes[window.location.pathname];
+const sjaarscherInterest = getCookie('sjaarscher-interest');
+if (sjaarscherInterest === 'unions') {
+  onNavigate('/unions');
+} else if (sjaarscherInterest === 'students') {
+  onNavigate('/students');
+} else {
+  onNavigate('/');
+}
 
 function onNavigate(pathname) {
   window.history.pushState(
@@ -49,4 +56,20 @@ function unfocusSearch() {
   console.log("in unfocusSearch()")
   const searchBox = document.getElementById("search-box");
   searchBox.blur();
+}
+
+function getCookie(cname) {
+  var name = cname + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ca = decodedCookie.split(';');
+  for(var i = 0; i <ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
 }

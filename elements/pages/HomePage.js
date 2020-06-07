@@ -90,15 +90,33 @@ class HomePage extends LitElement {
         />
         <div id='start-container'>
           <div id='start-prompt'>Ik ben op zoek naar...</div>
-          <a class='start-answer' href="#" onclick="onNavigate('/unions'); return false;">
+          <a class='start-answer' href="#" @click="${this._clickUnions}">
             Verenigingen
           </a>
-          <a class='start-answer' href="#" onclick="onNavigate('/students'); return false;">
+          <a class='start-answer' href="#" @click="${this._clickStudents}">
             Studenten
           </a>
         </div>
       </div>
     `;
+  }
+
+  _clickUnions(e) {
+    e.preventDefault();
+    return this._clickStartAnswer('unions');
+  }
+
+  _clickStudents(e) {
+    e.preventDefault();
+    return this._clickStartAnswer('students');
+  }
+
+  _clickStartAnswer(startAnswer) {
+    let d = new Date();
+    d.setTime(d.getTime() + (365*24*60*60*1000));
+    document.cookie = `sjaarscher-interest=${startAnswer}; expires=${d.toUTCString()};path=/`;
+    onNavigate(`/${startAnswer}`);
+    return false;
   }
 }
 
