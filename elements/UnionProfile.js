@@ -1,6 +1,6 @@
 import {LitElement, html, css} from 'lit-element';
 
-class StudentProfile extends LitElement {
+class UnionProfile extends LitElement {
   static get styles() {
     return css`
       .drag-container {
@@ -105,12 +105,14 @@ class StudentProfile extends LitElement {
 
   static get properties() {
     return {
-      firstName: { type: String },
-      lastName: { type: String, value: '' },
-      age: { type: Number },
-      study: { type: String, value: '' },
-      distance: { type: String, value: '' },
+      name: { type: String },
       description: { type: String, value: '' },
+
+      website: { type: String },
+      email: { type: String },
+      phoneNumber: { type: String },
+      city: { type: String },
+      country: { type: String },
       
       _oldMouseX: { type: Number },
       _oldMouseY: { type: Number },
@@ -133,11 +135,11 @@ class StudentProfile extends LitElement {
           <div class="image-container" @mousedown=${this._onMouseDown} @touchstart=${this._onTouchStart}>
             <img 
               class="profile-image"
-              src="https://cdn.sjaarscher.nl/profile_images/${this.firstName.toLowerCase()}.jpg"
-              alt="${this.firstName}"
-              title="${this.firstName}"
+              src="https://cdn.sjaarscher.nl/union_profile_images/${this.name.toLowerCase()}.jpg"
+              alt="${this.name}"
+              title="${this.name}"
             >
-            <div class="profile-name">${this.firstName} ${this.lastName} ${this.age ? '(' + this.age + ')' : ''}</div>
+            <div class="profile-name">${this.name}</div>
             <svg id="share-icon" viewBox="0 0 135.47 118.53">
               <path d="M 79.898019,-0.96433064 33.330298,-41.177029 c -4.076171,-3.520281 -10.500519,-0.662517 -10.500519,4.805891 v 21.18069 c -42.499756,0.486569 -76.2,9.0043004 -76.2,49.280762 0,16.256263 10.472473,32.360923 22.048523,40.780763 3.612356,2.62757 8.760619,-0.67019 7.428706,-4.92946 -11.997267,-38.368019 5.690394,-48.553948 46.722771,-49.144234 v 23.260844 c 0,5.47687 6.429375,8.32194 10.500519,4.80589 L 79.898019,8.6474524 c 2.92921,-2.529946 2.93317,-7.078398 0,-9.61178304 z" transform="translate(53.370221,42.725081)"/>
             </svg>
@@ -145,12 +147,7 @@ class StudentProfile extends LitElement {
         </div>
       </div>
       <div class="info-container">
-        ${this.study ? html`<div class="study">${this.study}</div>` : ''}
-        ${this.distance ? html`<div class="distance">${this.distance}</div>` : ''}
-        ${
-          (this.study || this.distance) && (this.description) ?
-          html`<div class="info-divider"></div>` : ''
-        }
+        ${this.city ? html`<div class="city">${this.city}</div>` : ''}
         ${this.description ? html`<div class="description">${this.description}</div>` : ''}
       </div>
     `;
@@ -222,17 +219,17 @@ class StudentProfile extends LitElement {
     const a = a1+a2;
     if (a > 0.5) {
       if (this._swipeResult === 'none') {
-        this._dispatchCustomEvent('studentProfileLeanEvent', 'like');
+        this._dispatchCustomEvent('unionstudentProfileLeanEvent', 'like');
       }
       this._swipeResult = 'like';
     } else if (a < -0.5) {
       if (this._swipeResult === 'none') {
-        this._dispatchCustomEvent('studentProfileLeanEvent', 'dislike');
+        this._dispatchCustomEvent('unionstudentProfileLeanEvent', 'dislike');
       }
       this._swipeResult = 'dislike';
     } else {
       if (this._swipeResult !== 'none') {
-        this._dispatchCustomEvent('studentProfileUnleanEvent', 'none');
+        this._dispatchCustomEvent('unionstudentProfileUnleanEvent', 'none');
       }
       this._swipeResult = 'none';
     }
@@ -252,9 +249,9 @@ class StudentProfile extends LitElement {
     this._dragEnd();
   }
   _dragEnd() {
-    this._dispatchCustomEvent('studentProfileUnleanEvent', 'none');
+    this._dispatchCustomEvent('unionstudentProfileUnleanEvent', 'none');
     if (this._swipeResult !== 'none') {
-      this._dispatchCustomEvent('studentProfileSwipeEvent', this._swipeResult);
+      this._dispatchCustomEvent('unionstudentProfileSwipeEvent', this._swipeResult);
     } else {
       this._dragContainer.style.transition = '0.3s';
       this._dragContainer.style.transform = 'matrix(1, 0, 0, 1, 0, 0)';
@@ -271,4 +268,4 @@ class StudentProfile extends LitElement {
   }
 }
 
-customElements.define('student-profile', StudentProfile);
+customElements.define('union-profile', UnionProfile);

@@ -38,13 +38,14 @@ class SideNavigation extends LitElement {
   render() {
     return html`  
       <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-      <a href="#">Unions</a>
-      <a href="#">Students</a>
-      <a href="#">Chat</a>
-      <a href="#">Events</a>
-      <a href="#">Account</a>
-      <a href="#">Settings</a>
-      <a href="#">About</a>
+      <a href="unions">Verenigingen</a>
+      <a href="students">Studenten</a>
+      <a href="chat">Chat</a>
+      <a href="events">Events</a>
+      <a href="account">Account</a>
+      <a href="settings">Instellingen</a>
+      <a href="about">Contact</a>
+      <!-- TODO Add language button here -->
     `;
   }
 }

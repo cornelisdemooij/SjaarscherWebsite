@@ -1,6 +1,6 @@
 import {LitElement, html, css} from 'lit-element';
 
-class StudentPage extends LitElement {
+class StudentsPage extends LitElement {
   static get styles() {
     return css`
       student-profile {
@@ -175,9 +175,9 @@ class StudentPage extends LitElement {
   }
   
   firstUpdated() {
-    this.addEventListener("profileSwipeEvent", this._handleProfileSwipe);
-    this.addEventListener("profileLeanEvent", this._handleProfileLean);
-    this.addEventListener("profileUnleanEvent", this._handleProfileUnlean);
+    this.addEventListener("studentProfileSwipeEvent", this._handleProfileSwipe);
+    this.addEventListener("studentProfileLeanEvent", this._handleProfileLean);
+    this.addEventListener("studentProfileUnleanEvent", this._handleProfileUnlean);
   }
 
   _handleProfileSwipe() {
@@ -220,4 +220,4 @@ class StudentPage extends LitElement {
   }
 }
 
-customElements.define('student-page', StudentPage);
+customElements.define('students-page', StudentsPage);
