@@ -37,7 +37,7 @@ class SideNavigation extends LitElement {
 
   render() {
     return html`  
-      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <a href="javascript:void(0)" class="closebtn" @click="${this._clickCloseButton}">&times;</a>
       <a href="home">Home</a>
       <a href="unions">Verenigingen</a>
       <a href="students">Studenten</a>
@@ -48,6 +48,10 @@ class SideNavigation extends LitElement {
       <a href="about">Contact</a>
       <!-- TODO Add language button here -->
     `;
+  }
+
+  _clickCloseButton() {
+    this.dispatchEvent(new Event('closeNav', {bubbles: true}))
   }
 }
 

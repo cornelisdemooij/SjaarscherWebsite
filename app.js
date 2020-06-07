@@ -34,7 +34,6 @@ function navigate(pathname) {
   rootDiv.innerHTML = routes[pathname]
 }
 function onNavigate(e) {
-  console.log(e);
   if (e && e.detail) {
     navigate(e.detail);
   }
