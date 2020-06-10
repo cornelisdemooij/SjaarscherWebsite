@@ -81,38 +81,53 @@ class AboutPage extends LitElement {
   _submitEmail() {
     const mailComponent = this.shadowRoot.querySelector('#email');
     const valid = mailComponent.checkValidity();
-    if (valid) {
-      const email = mailComponent.value;
-      const message = { email };
-      console.log(JSON.stringify(message))
+    if (!valid) {
+      window.alert('Het email adres dat je hebt ingevuld is niet geldig.');
+      return;
+    }
+    
+    const email = mailComponent.value;
+    const message = { email };
 
-      fetch('http://localhost:8080/api/email')
-        .then(response => response.json())
-        .then(data => console.log(data));
-      
+    // fetch('http://localhost:8080/api/xsrf', { credentials: 'include' }).then(response => {
+    fetch('https://sjaarscher.nl/api/xsrf', { credentials: 'include' }).then(response => {
+      if (!response) {
+        window.alert('Error: invalid XSRF response from backend API.');
+        return;
+      }
+
       const xsrfToken = getCookie('XSRF-TOKEN');
       const headers = new Headers({
         'Content-Type': 'application/json',
         'X-XSRF-TOKEN': xsrfToken
       });
-      console.log(xsrfToken);
+      if (!xsrfToken) {
+        window.alert('Error: XSRF-TOKEN cookie not found.');
+        return;
+      }
       
-      fetch('http://localhost:8080/api/email', { //fetch('https://sjaarscher.nl/api/email', {
+      fetch('https://sjaarscher.nl/api/email', {
+      //fetch('http://localhost:8080/api/email', {
         method: 'post',
+        credentials: 'include',
         headers,
         body: JSON.stringify(message)
-      }).then(response => {
-        return response.text()
       })
+      .then(response => response.text())
       .then((data) => {
-        console.log(data ? JSON.parse(data) : {})
+        const parsedData = data ? JSON.parse(data) : {};
+        if (parsedData.status && parsedData.status !== 202) {
+          throw parsedData;
+        } else {
+          console.log(parsedData);
+        }
       })
       .catch((error) => {
-        console.log(error)
+        console.error(error)
+        window.alert('Error: Could not save e-mail address. Backend responded with: ' + JSON.stringify(error));
+        return;
       });
-    } else {
-      window.alert('Het email adres dat je hebt ingevuld is niet geldig.');
-    }
+    });
   }
 }
 
