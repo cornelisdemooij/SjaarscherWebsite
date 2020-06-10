@@ -14,16 +14,16 @@ export function getCookie(cname) {
   return "";
 }
 
-export function submitEmail(email) {
+export function submitEmail(email, caller) {
   const message = { email };
 
   // TODO: Add config for domain by environment (local or prod).
 
-  //return fetch('http://localhost:8080/api/xsrf', { credentials: 'include' }).then(response => {
+  //fetch('http://localhost:8080/api/xsrf', { credentials: 'include' }).then(response => {
   fetch('https://sjaarscher.nl/api/xsrf', { credentials: 'include' }).then(response => {
     if (!response) {
       window.alert('Error: invalid XSRF response from backend API.');
-      return false;
+      dispatchEmailSubmitResult(false, caller);
     }
 
     const xsrfToken = getCookie('XSRF-TOKEN');
@@ -33,10 +33,10 @@ export function submitEmail(email) {
     });
     if (!xsrfToken) {
       window.alert('Error: XSRF-TOKEN cookie not found.');
-      return false;
+      dispatchEmailSubmitResult(false, caller);
     }
     
-    //return fetch('http://localhost:8080/api/email', {
+    //fetch('http://localhost:8080/api/email', {
     fetch('https://sjaarscher.nl/api/email', {
       method: 'post',
       credentials: 'include',
@@ -49,13 +49,22 @@ export function submitEmail(email) {
       if (parsedData.status && parsedData.status !== 202) {
         throw parsedData;
       } else {
-        return true;
+        dispatchEmailSubmitResult(true, caller);
       }
     })
     .catch((error) => {
       console.error(error)
       window.alert('Error: Could not save e-mail address. Backend responded with: ' + JSON.stringify(error));
-      return false;
+      dispatchEmailSubmitResult(false, caller);
     });
   });
+}
+
+function dispatchEmailSubmitResult(success, caller) {
+  const event = new CustomEvent('emailSubmitResult', { 
+    detail: { success },
+    bubbles: true,
+    composed: true,
+  });
+  caller.dispatchEvent(event);
 }

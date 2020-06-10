@@ -105,8 +105,12 @@ class AboutPage extends LitElement {
       </div>
     `;
   }
+  
+  firstUpdated() {
+    this.addEventListener("emailSubmitResult", this._handleEmailSubmitResult);
+  }
 
-  async _submitEmail() {
+  _submitEmail() {
     const mailComponent = this.shadowRoot.querySelector('#email');
     const valid = mailComponent.checkValidity();
     if (!valid) {
@@ -114,8 +118,11 @@ class AboutPage extends LitElement {
       return;
     }
     const email = mailComponent.value;
-    const emailSaved = await submitEmail(email);
-    if (emailSaved) {
+    submitEmail(email, this);
+  }
+
+  _handleEmailSubmitResult(e) {
+    if (e.detail.success) {
       this.shadowRoot.querySelector('#successMessage').style.display = 'block';
       this.shadowRoot.querySelector('#failMessage').style.display = 'none';
     } else {
