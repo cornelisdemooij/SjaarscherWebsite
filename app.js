@@ -3,11 +3,11 @@ const routes = {
   '/home': `<home-page></home-page>`,
   '/unions': `<unions-page></unions-page>`,
   '/students': `<students-page></students-page>`,
-  '/chat': `chat`,
-  '/events': `events`,
-  '/account': `account`,
-  '/settings': `settings`,
-  '/about': `about`
+  '/chat': `<chat-page></chat-page>`,
+  '/events': `<events-page></events-page>`,
+  '/account': `<account-page></account-page>`,
+  '/settings': `<settings-page></settings-page>`,
+  '/about': `<about-page></about-page>`
 };
 
 const rootDiv = document.getElementById('root');
