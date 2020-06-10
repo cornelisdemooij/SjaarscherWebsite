@@ -1,5 +1,5 @@
 import { LitElement, html, css } from 'lit-element';
-import { getCookie } from '../util.js';
+import { submitEmail } from '../util.js';
 
 class AboutPage extends LitElement {
   static get styles() {
@@ -14,12 +14,6 @@ class AboutPage extends LitElement {
         font-size: 28px;
       }
 
-      @media screen and (max-width: 360px) {
-        * {
-          font-size: 20px;
-        }
-      }
-
       #container {
         height: 100vh;
         width: 600px;
@@ -29,11 +23,21 @@ class AboutPage extends LitElement {
         justify-content: center;
         align-items: center;
       }
+      @media (max-width: 600px) {
+        #container {
+          max-width: 100%;
+        }
+      }
 
       .construction-icon {
         width: 100px;
         margin: 20px;
         fill: #970931;
+      }
+      @media (max-width: 200px) {
+        .construction-icon {
+          width: 50%;
+        }
       }
 
       p, input {
@@ -46,6 +50,11 @@ class AboutPage extends LitElement {
       input:invalid {
         border: #970931 solid 3px;
       }
+      @media (max-width: 600px) {
+        input {
+          width: calc(100% - 10px);
+        }
+      }
 
       #submit {
         background-color: #970931;
@@ -56,6 +65,18 @@ class AboutPage extends LitElement {
         text-decoration: none;
         display: inline-block;
         color: #ffffff;
+      }
+      @media (max-width: 600px) {
+        #submit {
+          width: 100%;
+          padding: 15px 0 15px 0;
+          border-radius: 0;
+        }
+      }
+
+      #successMessage, #failMessage {
+        display: none;
+        transition: 0.3s
       }
     `;
   }
@@ -74,60 +95,33 @@ class AboutPage extends LitElement {
         </p>
         <input type="email" id="email" required placeholder="naam@mail.com" pattern="^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z])+$">
         <input type="button" id="submit" value="Verzenden" @click=${this._submitEmail}>
+        <p id="successMessage">
+          Je email adres is opgeslagen, bedankt en tot snel!
+        </p>
+        <p id="failMessage">
+          Het is niet gelukt om je email adres op te slaan, onze excuses.
+          Probeer het nog eens, of stuur een berichtje naar <a href="mailto:info@sjaarscher.nl">info@sjaarscher.nl</a>.
+        </p>
       </div>
     `;
   }
 
-  _submitEmail() {
+  async _submitEmail() {
     const mailComponent = this.shadowRoot.querySelector('#email');
     const valid = mailComponent.checkValidity();
     if (!valid) {
       window.alert('Het email adres dat je hebt ingevuld is niet geldig.');
       return;
     }
-    
     const email = mailComponent.value;
-    const message = { email };
-
-    // fetch('http://localhost:8080/api/xsrf', { credentials: 'include' }).then(response => {
-    fetch('https://sjaarscher.nl/api/xsrf', { credentials: 'include' }).then(response => {
-      if (!response) {
-        window.alert('Error: invalid XSRF response from backend API.');
-        return;
-      }
-
-      const xsrfToken = getCookie('XSRF-TOKEN');
-      const headers = new Headers({
-        'Content-Type': 'application/json',
-        'X-XSRF-TOKEN': xsrfToken
-      });
-      if (!xsrfToken) {
-        window.alert('Error: XSRF-TOKEN cookie not found.');
-        return;
-      }
-      
-      fetch('https://sjaarscher.nl/api/email', {
-      //fetch('http://localhost:8080/api/email', {
-        method: 'post',
-        credentials: 'include',
-        headers,
-        body: JSON.stringify(message)
-      })
-      .then(response => response.text())
-      .then((data) => {
-        const parsedData = data ? JSON.parse(data) : {};
-        if (parsedData.status && parsedData.status !== 202) {
-          throw parsedData;
-        } else {
-          console.log(parsedData);
-        }
-      })
-      .catch((error) => {
-        console.error(error)
-        window.alert('Error: Could not save e-mail address. Backend responded with: ' + JSON.stringify(error));
-        return;
-      });
-    });
+    const emailSaved = await submitEmail(email);
+    if (emailSaved) {
+      this.shadowRoot.querySelector('#successMessage').style.display = 'block';
+      this.shadowRoot.querySelector('#failMessage').style.display = 'none';
+    } else {
+      this.shadowRoot.querySelector('#successMessage').style.display = 'none';
+      this.shadowRoot.querySelector('#failMessage').style.display = 'block';
+    }
   }
 }
 
