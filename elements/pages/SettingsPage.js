@@ -12,18 +12,12 @@ class SettingsPage extends LitElement {
         font-family: 'Helvetica Neue', Arial, sans-serif;
         font-size: 28px;
       }
-
-      @media screen and (max-width: 360px) {
-        * {
-          font-size: 20px;
-        }
-      }
     `;
   }
 
   render() {
     return html`
-      Under construction.
+      <construction-page></construction-page>
     `;
   }
 }

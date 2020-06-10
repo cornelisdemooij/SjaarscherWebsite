@@ -7,7 +7,8 @@ const routes = {
   '/events': `<events-page></events-page>`,
   '/account': `<account-page></account-page>`,
   '/settings': `<settings-page></settings-page>`,
-  '/about': `<about-page></about-page>`
+  '/about': `<about-page></about-page>`,
+  '/construction': `<construction-page></construction-page>` // Not in side nav.
 };
 
 const rootDiv = document.getElementById('root');
