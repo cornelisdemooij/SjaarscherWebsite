@@ -1,3 +1,5 @@
+import { apiHost } from '../config/config.js';
+
 export function getCookie(cname) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
@@ -19,8 +21,7 @@ export function submitEmail(email, caller) {
 
   // TODO: Add config for domain by environment (local or prod).
 
-  //fetch('http://localhost:8080/api/xsrf', { credentials: 'include' }).then(response => {
-  fetch('https://sjaarscher.nl/api/xsrf', { credentials: 'include' }).then(response => {
+  fetch(`${apiHost}/api/xsrf`, { credentials: 'include' }).then(response => {
     if (!response) {
       window.alert('Error: invalid XSRF response from backend API.');
       dispatchEmailSubmitResult(false, caller);
@@ -36,8 +37,7 @@ export function submitEmail(email, caller) {
       dispatchEmailSubmitResult(false, caller);
     }
     
-    //fetch('http://localhost:8080/api/email', {
-    fetch('https://sjaarscher.nl/api/email', {
+    fetch(`${apiHost}/api/email`, {
       method: 'post',
       credentials: 'include',
       headers,

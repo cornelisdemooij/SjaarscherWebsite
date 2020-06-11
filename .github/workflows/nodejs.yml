@@ -15,6 +15,7 @@ jobs:
       with:
         node-version: 12.x
     - run: npm ci                       # Clean install
+    - run: mv ./config/prod/config.js ./config/config.js -f
     - run: npm run build --if-present   # Build with Polymer, see package.json
     #- run: npm test                    # Disabled, because I haven't created tests yet.
 
