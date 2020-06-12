@@ -125,6 +125,7 @@ class UnionsPage extends LitElement {
     const swipedProfileElement = profileElements[profileElements.length-1];
     swipedProfileElement.style.transition = `${fadeTime}s`;
     swipedProfileElement.style.opacity = '0';
+    swipedProfileElement.style.display = 'none';
     setTimeout(() => {
       this.requestUpdate();
       swipedProfileElement.parentNode.removeChild(swipedProfileElement);

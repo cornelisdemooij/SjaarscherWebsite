@@ -6,7 +6,7 @@ class StudentProfile extends LitElement {
       .drag-container {
         margin: 0 auto;
         width: 600px;
-        transform-origin: bottom center;
+        transform-origin: 50% 120%;
       }
       @media (max-width: 600px) {
         .drag-container {
