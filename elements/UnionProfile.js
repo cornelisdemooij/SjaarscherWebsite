@@ -167,6 +167,8 @@ class UnionProfile extends LitElement {
     e = e || window.event;
     e.preventDefault();
     this._dragStart(e.clientX, e.clientY);
+
+    this._dispatchCustomEvent('profileMouseEvent');
     
     // Set handlers for mouse moving and button being released:
     this.onmousemove = this._onMouseMove;
@@ -176,6 +178,8 @@ class UnionProfile extends LitElement {
     e = e || window.event;
     e.preventDefault();
     this._dragStart(e.touches[0].clientX, e.touches[0].clientY);
+
+    this._dispatchCustomEvent('profileTouchEvent');
     
     // Set handlers for moving and release:
     this.ontouchmove = this._onTouchMove;
@@ -219,17 +223,17 @@ class UnionProfile extends LitElement {
     const a = a1+a2;
     if (a > 0.5) {
       if (this._swipeResult === 'none') {
-        this._dispatchCustomEvent('unionstudentProfileLeanEvent', 'like');
+        this._dispatchCustomEvent('unionProfileLeanEvent', 'like');
       }
       this._swipeResult = 'like';
     } else if (a < -0.5) {
       if (this._swipeResult === 'none') {
-        this._dispatchCustomEvent('unionstudentProfileLeanEvent', 'dislike');
+        this._dispatchCustomEvent('unionProfileLeanEvent', 'dislike');
       }
       this._swipeResult = 'dislike';
     } else {
       if (this._swipeResult !== 'none') {
-        this._dispatchCustomEvent('unionstudentProfileUnleanEvent', 'none');
+        this._dispatchCustomEvent('unionProfileUnleanEvent', 'none');
       }
       this._swipeResult = 'none';
     }
@@ -249,9 +253,9 @@ class UnionProfile extends LitElement {
     this._dragEnd();
   }
   _dragEnd() {
-    this._dispatchCustomEvent('unionstudentProfileUnleanEvent', 'none');
+    this._dispatchCustomEvent('unionProfileUnleanEvent', 'none');
     if (this._swipeResult !== 'none') {
-      this._dispatchCustomEvent('unionstudentProfileSwipeEvent', this._swipeResult);
+      this._dispatchCustomEvent('unionProfileSwipeEvent', this._swipeResult);
     } else {
       this._dragContainer.style.transition = '0.3s';
       this._dragContainer.style.transform = 'matrix(1, 0, 0, 1, 0, 0)';

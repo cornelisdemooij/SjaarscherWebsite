@@ -47,6 +47,20 @@ class StudentsPage extends LitElement {
         right: 20px;
         transform: rotate(20deg);
       }
+
+      swipe-hint {
+        position: absolute;
+        margin: 285px auto;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        pointer-events: none; /* ignore mouse/touch, otherwise hints interfere with swipes */
+      }
+      @media (max-width: 600px) {
+        swipe-hint {
+          margin-top: 47.5vw;
+        }
+      }
     `;
   }
 
@@ -157,6 +171,7 @@ class StudentsPage extends LitElement {
 
   render() {
     return html`
+      <swipe-hint id='swipe-hint'></swipe-hint>
       ${this.profiles.map(profile => html`
         <student-profile
           firstName="${profile.firstName}"
@@ -178,6 +193,8 @@ class StudentsPage extends LitElement {
     this.addEventListener("studentProfileSwipeEvent", this._handleProfileSwipe);
     this.addEventListener("studentProfileLeanEvent", this._handleProfileLean);
     this.addEventListener("studentProfileUnleanEvent", this._handleProfileUnlean);
+    this.addEventListener("profileMouseEvent", this._hideSwipeHint);
+    this.addEventListener("profileTouchEvent", this._hideSwipeHint);
   }
 
   _handleProfileSwipe() {
@@ -217,6 +234,11 @@ class StudentsPage extends LitElement {
       likehint.style.opacity = 0;
       dislikehint.style.opacity = 0;
     }
+  }
+
+  _hideSwipeHint() {
+    const swipeHint = this.shadowRoot.querySelector('#swipe-hint');
+    swipeHint.style.display = 'none';
   }
 }
 

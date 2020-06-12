@@ -47,6 +47,20 @@ class UnionsPage extends LitElement {
         right: 20px;
         transform: rotate(20deg);
       }
+
+      swipe-hint {
+        position: absolute;
+        margin: 285px auto;
+        left: 0;
+        right: 0;
+        z-index: 1;
+        pointer-events: none; /* ignore mouse/touch, otherwise hints interfere with swipes */
+      }
+      @media (max-width: 600px) {
+        swipe-hint {
+          margin-top: 47.5vw;
+        }
+      }
     `;
   }
 
@@ -79,6 +93,7 @@ class UnionsPage extends LitElement {
 
   render() {
     return html`
+      <swipe-hint id='swipe-hint'></swipe-hint>
       ${this.profiles.map(profile => html`
         <union-profile
           name="${profile.name}"
@@ -94,9 +109,11 @@ class UnionsPage extends LitElement {
   }
   
   firstUpdated() {
-    this.addEventListener("unionstudentProfileSwipeEvent", this._handleUnionProfileSwipe);
-    this.addEventListener("unionstudentProfileLeanEvent", this._handleUnionProfileLean);
-    this.addEventListener("unionstudentProfileUnleanEvent", this._handleUnionProfileUnlean);
+    this.addEventListener("unionProfileSwipeEvent", this._handleUnionProfileSwipe);
+    this.addEventListener("unionProfileLeanEvent", this._handleUnionProfileLean);
+    this.addEventListener("unionProfileUnleanEvent", this._handleUnionProfileUnlean);
+    this.addEventListener("profileMouseEvent", this._hideSwipeHint);
+    this.addEventListener("profileTouchEvent", this._hideSwipeHint);
   }
 
   _handleUnionProfileSwipe() {
@@ -136,6 +153,11 @@ class UnionsPage extends LitElement {
       likehint.style.opacity = 0;
       dislikehint.style.opacity = 0;
     }
+  }
+
+  _hideSwipeHint() {
+    const swipeHint = this.shadowRoot.querySelector('#swipe-hint');
+    swipeHint.style.display = 'none';
   }
 }
 

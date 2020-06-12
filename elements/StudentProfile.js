@@ -170,6 +170,8 @@ class StudentProfile extends LitElement {
     e = e || window.event;
     e.preventDefault();
     this._dragStart(e.clientX, e.clientY);
+
+    this._dispatchCustomEvent('profileMouseEvent');
     
     // Set handlers for mouse moving and button being released:
     this.onmousemove = this._onMouseMove;
@@ -179,6 +181,8 @@ class StudentProfile extends LitElement {
     e = e || window.event;
     e.preventDefault();
     this._dragStart(e.touches[0].clientX, e.touches[0].clientY);
+
+    this._dispatchCustomEvent('profileTouchEvent');
     
     // Set handlers for moving and release:
     this.ontouchmove = this._onTouchMove;
