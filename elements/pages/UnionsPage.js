@@ -3,6 +3,15 @@ import {LitElement, html, css} from 'lit-element';
 class UnionsPage extends LitElement {
   static get styles() {
     return css`
+      construction-page {
+        position: absolute;
+        margin: 0 auto;
+        left: 0;
+        right: 0;
+        text-align: center;
+        background-color: transparent;
+      }
+
       union-profile {
         position: absolute;
         margin: 0 auto;
@@ -93,6 +102,7 @@ class UnionsPage extends LitElement {
 
   render() {
     return html`
+      <construction-page></construction-page>
       <swipe-hint id='swipe-hint'></swipe-hint>
       ${this.profiles.map(profile => html`
         <union-profile

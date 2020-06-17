@@ -22,6 +22,9 @@ class ConstructionPage extends LitElement {
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        background-color: #DDD;
+        border-left: solid 1px #BBBBBB;
+        border-right: solid 1px #BBBBBB;
       }
       @media (max-width: 600px) {
         #container {
@@ -40,10 +43,12 @@ class ConstructionPage extends LitElement {
         }
       }
 
+      p {
+        padding: 0 20px;
+      }
       p, input {
         margin: 0 0 20px 0;
       }
-
       input {
         border: black solid 3px;
       }
