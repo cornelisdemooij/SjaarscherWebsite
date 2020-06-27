@@ -92,13 +92,18 @@ class UnionsPage extends LitElement {
     return html`
       <construction-page></construction-page>
       <swipe-hint id='swipe-hint'></swipe-hint>
-      ${this.profiles.map(profile => html`
-        <union-profile
-          name="${profile.name}"
-          description=${profile.description ? profile.description : ''}
-          city="${profile.city}"
-        ></union-profile>
-      `)}
+      ${this.profiles
+        //.filter(profile => !(profile.swiped))
+        //.slice(-3)
+        .map(profile => html`
+          <union-profile
+            id="${profile.id}"
+            name="${profile.name}"
+            description=${profile.description ? profile.description : ''}
+            city="${profile.city}"
+          ></union-profile>
+        `)
+      }
       <div id='hint-container'>
         <div id='dislike-hint' class='hint'>NOPE</div>
         <div id='like-hint' class='hint'>LIKE</div>
@@ -125,7 +130,6 @@ class UnionsPage extends LitElement {
     swipedProfileElement.style.opacity = '0';
     swipedProfileElement.style.display = 'none';
     setTimeout(() => {
-      this.requestUpdate();
       swipedProfileElement.parentNode.removeChild(swipedProfileElement);
     }, fadeTime*1000);
   }

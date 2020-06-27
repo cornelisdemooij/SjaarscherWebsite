@@ -104,6 +104,7 @@ class UnionProfile extends LitElement {
 
   static get properties() {
     return {
+      id: { type: Number },
       name: { type: String },
       description: { type: String, value: '' },
 
@@ -134,7 +135,7 @@ class UnionProfile extends LitElement {
           <div class="image-container" @mousedown=${this._onMouseDown} @touchstart=${this._onTouchStart}>
             <img 
               class="profile-image"
-              src="https://cdn.sjaarscher.nl/union_profile_images/${this.name}.jpg"
+              src="https://cdn.sjaarscher.nl/groups/${this.id}/${this.name}.jpg"
               alt="${this.name}"
               title="${this.name}"
             >
