@@ -1,4 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
+import Groups from '../crud/Groups.js';
 
 class UnionsPage extends LitElement {
   static get styles() {
@@ -75,29 +76,16 @@ class UnionsPage extends LitElement {
 
   static get properties() {
     return {
-      profiles: { type: Array, value: [] },
+      profiles: { type: Array },
     };
   }
 
   constructor() {
     super();
-    this.profiles = [
-      {
-        name: 'DSC',
-        description: 'Test beschrijving van DSC',
-        city: 'Delft'
-      },
-      {
-        name: 'Virgiel',
-        description: 'Test beschrijving van Virgiel',
-        city: 'Delft'
-      },
-      {
-        name: 'DSB',
-        description: 'Test beschrijving van de DSB',
-        city: 'Delft'
-      }
-    ];
+    this.profiles = [];
+    Groups.read()
+      .then(result => this.profiles = result)
+      .catch(error => console.error(error));
   }
 
   render() {

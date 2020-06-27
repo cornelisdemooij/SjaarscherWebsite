@@ -83,10 +83,8 @@ class StudentProfile extends LitElement {
       }
       @media (min-width: 602px) {
         .info-container {
-          width: 578px;
+          width: 580px;
           height: calc(100vh - 600px - 20px);
-          border-left: solid 1px #BBBBBB;
-          border-right: solid 1px #BBBBBB;
         }
       }
       @media (max-height: 750px) {

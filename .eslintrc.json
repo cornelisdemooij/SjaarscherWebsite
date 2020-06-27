@@ -4,5 +4,6 @@
     "lit/rule-name": "error"
   },
   "extends": ["plugin:lit/recommended"],
-  "env": {"browser": true}
+  "env": {"browser": true},
+  "parser": "babel-eslint"
 }

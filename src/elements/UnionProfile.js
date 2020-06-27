@@ -31,6 +31,7 @@ class UnionProfile extends LitElement {
         color: white;
         height: 100%;
         width: 100%;
+        background-color: #333333;
       }
       .profile-image {
         height: 100%;
@@ -83,10 +84,8 @@ class UnionProfile extends LitElement {
       }
       @media (min-width: 602px) {
         .info-container {
-          width: 578px;
+          width: 580px;
           height: calc(100vh - 600px - 20px);
-          border-left: solid 1px #BBBBBB;
-          border-right: solid 1px #BBBBBB;
         }
       }
       @media (max-height: 750px) {
@@ -135,7 +134,7 @@ class UnionProfile extends LitElement {
           <div class="image-container" @mousedown=${this._onMouseDown} @touchstart=${this._onTouchStart}>
             <img 
               class="profile-image"
-              src="https://cdn.sjaarscher.nl/union_profile_images/${this.name.toLowerCase()}.jpg"
+              src="https://cdn.sjaarscher.nl/union_profile_images/${this.name}.jpg"
               alt="${this.name}"
               title="${this.name}"
             >
