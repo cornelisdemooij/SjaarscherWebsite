@@ -93,8 +93,7 @@ class UnionsPage extends LitElement {
       <construction-page></construction-page>
       <swipe-hint id='swipe-hint'></swipe-hint>
       ${this.profiles
-        //.filter(profile => !(profile.swiped))
-        //.slice(-3)
+        .slice(-3)
         .map(profile => html`
           <union-profile
             id="${profile.id}"
@@ -120,17 +119,29 @@ class UnionsPage extends LitElement {
   }
 
   _handleUnionProfileSwipe() {
-    const swipedProfile = this.profiles.pop();
-    console.log(`swipedProfile = ${JSON.stringify(swipedProfile)}`);
-    
     const fadeTime = 0.3; // in seconds.
+
+    const swipedProfile = this.profiles.pop();
     const profileElements = this.shadowRoot.querySelectorAll('union-profile');
     const swipedProfileElement = profileElements[profileElements.length-1];
+    const parentNode = swipedProfileElement.parentNode;
+    const childNodes = parentNode.children;
+
+    console.log(`swipedProfile = ${JSON.stringify(swipedProfile)}`);
+    
     swipedProfileElement.style.transition = `${fadeTime}s`;
     swipedProfileElement.style.opacity = '0';
     swipedProfileElement.style.display = 'none';
+
     setTimeout(() => {
-      swipedProfileElement.parentNode.removeChild(swipedProfileElement);
+      parentNode.insertBefore(childNodes[4], childNodes[2]);
+      swipedProfileElement.setRotation(0);
+      swipedProfileElement.style.transition = `0s`;
+      swipedProfileElement.style.opacity = '1';
+      swipedProfileElement.style.display = 'initial';
+      const newProfile = this.profiles.slice(-4,-3)[0];
+      console.log(newProfile);
+      swipedProfileElement.setData(newProfile);
     }, fadeTime*1000);
   }
 

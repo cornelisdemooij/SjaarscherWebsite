@@ -163,6 +163,13 @@ class UnionProfile extends LitElement {
     this._dragContainer.style.transform = `matrix(${c}, ${s}, ${-s}, ${c}, 0, 0)`;
   }
 
+  setData(profile) {
+    this.id = profile.id;
+    this.name = profile.name;
+    this.description = profile.description;
+    this.city = profile.city;
+  }
+
   _onMouseDown(e) {
     e = e || window.event;
     e.preventDefault();
