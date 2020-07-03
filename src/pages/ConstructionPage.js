@@ -96,7 +96,7 @@ class ConstructionPage extends LitElement {
           Onder constructie.
         </p>
         <p>
-          Laat je email adres achter en we sturen je een bericht wanneer we live gaan:
+          Interesse? Laat je email adres achter:
         </p>
         <input type="email" id="email" required placeholder="naam@mail.com" pattern="^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z])+$">
         <input type="button" id="submit" value="Verzenden" @click=${this._submitEmail}>

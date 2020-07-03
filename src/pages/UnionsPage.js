@@ -99,7 +99,11 @@ class UnionsPage extends LitElement {
             id="${profile.id}"
             name="${profile.name}"
             description=${profile.description ? profile.description : ''}
+            website="${profile.website}"
+            email="${profile.email}"
+            phoneNumber="${profile.phoneNumber}"
             city="${profile.city}"
+            country="${profile.country}"
           ></union-profile>
         `)
       }
@@ -127,7 +131,7 @@ class UnionsPage extends LitElement {
     const parentNode = swipedProfileElement.parentNode;
     const childNodes = parentNode.children;
 
-    console.log(`swipedProfile = ${JSON.stringify(swipedProfile)}`);
+    //console.log(`swipedProfile = ${JSON.stringify(swipedProfile)}`);
     
     swipedProfileElement.style.transition = `${fadeTime}s`;
     swipedProfileElement.style.opacity = '0';
@@ -140,7 +144,6 @@ class UnionsPage extends LitElement {
       swipedProfileElement.style.opacity = '1';
       swipedProfileElement.style.display = 'initial';
       const newProfile = this.profiles.slice(-4,-3)[0];
-      console.log(newProfile);
       swipedProfileElement.setData(newProfile);
     }, fadeTime*1000);
   }

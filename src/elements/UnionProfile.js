@@ -1,4 +1,6 @@
 import {LitElement, html, css} from 'lit-element';
+import GroupImages from '../crud/GroupImages.js';
+import { formatPhoneNumber } from '../util.js';
 
 class UnionProfile extends LitElement {
   static get styles() {
@@ -113,6 +115,8 @@ class UnionProfile extends LitElement {
       phoneNumber: { type: String },
       city: { type: String },
       country: { type: String },
+
+      groupImages: { type: Array },
       
       _oldMouseX: { type: Number },
       _oldMouseY: { type: Number },
@@ -126,6 +130,21 @@ class UnionProfile extends LitElement {
   constructor() {
     super();
     this._swipeResult = 'none';
+    this.groupImages = [];
+  }
+
+  attributeChangedCallback(name, oldVal, newVal) {
+    if (name === 'id') {
+      if (newVal != oldVal) {
+        GroupImages.readByGroupId(newVal)
+        .then(result => {
+          this.groupImages = result;
+          this.render();
+        })
+        .catch(error => console.error(error));
+      }
+    }
+    super.attributeChangedCallback(name, oldVal, newVal);
   }
 
   render() {
@@ -133,12 +152,18 @@ class UnionProfile extends LitElement {
       <div class="drag-container">
         <div class="drag-container-content">
           <div class="image-container" @mousedown=${this._onMouseDown} @touchstart=${this._onTouchStart}>
-            <img 
-              class="profile-image"
-              src="https://cdn.sjaarscher.nl/groups/${this.id}/${this.name}.jpg"
-              alt="${this.name}"
-              title="${this.name}"
-            >
+            ${
+              (this.groupImages.length > 0)
+              ? html`
+                  <img 
+                    class="profile-image"
+                    src="https://cdn.sjaarscher.nl/groups/${this.id}/${this.groupImages[0].filename}"
+                    alt="${this.name}"
+                    title="${this.name}"
+                  >
+                `
+              : ''
+            }
             <div class="profile-name">${this.name}</div>
             <svg id="share-icon" viewBox="0 0 135.47 118.53">
               <path d="M 79.898019,-0.96433064 33.330298,-41.177029 c -4.076171,-3.520281 -10.500519,-0.662517 -10.500519,4.805891 v 21.18069 c -42.499756,0.486569 -76.2,9.0043004 -76.2,49.280762 0,16.256263 10.472473,32.360923 22.048523,40.780763 3.612356,2.62757 8.760619,-0.67019 7.428706,-4.92946 -11.997267,-38.368019 5.690394,-48.553948 46.722771,-49.144234 v 23.260844 c 0,5.47687 6.429375,8.32194 10.500519,4.80589 L 79.898019,8.6474524 c 2.92921,-2.529946 2.93317,-7.078398 0,-9.61178304 z" transform="translate(53.370221,42.725081)"/>
@@ -149,6 +174,9 @@ class UnionProfile extends LitElement {
       <div class="info-container">
         ${this.city ? html`<div class="city">${this.city}</div>` : ''}
         ${this.description ? html`<div class="description">${this.description}</div>` : ''}
+        ${this.website ? html`<div><a href="${this.website}">${this.website}</a></div>` : ''}
+        ${this.email ? html`<div><a href="mailto:${this.email}">${this.email}</a></div>` : ''}
+        ${this.phoneNumber ? html`<div><a href="tel:${this.phoneNumber}">${formatPhoneNumber(this.phoneNumber)}</a></div>` : ''}
       </div>
     `;
   }
@@ -164,10 +192,26 @@ class UnionProfile extends LitElement {
   }
 
   setData(profile) {
+    if (profile == undefined) {
+      this.style.display = 'none';
+      return;
+    } else {
+      this.style.display = 'initial';
+    }
+
+    this.groupImages = [];
+    const oldId = this.id;
     this.id = profile.id;
+    this.attributeChangedCallback('id', oldId, this.id);
+
     this.name = profile.name;
     this.description = profile.description;
+
+    this.website = profile.website;
+    this.email = profile.email;
+    this.phoneNumber = profile.phoneNumber;
     this.city = profile.city;
+    this.country = profile.country;
   }
 
   _onMouseDown(e) {

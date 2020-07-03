@@ -68,3 +68,15 @@ function dispatchEmailSubmitResult(success, caller) {
   });
   caller.dispatchEvent(event);
 }
+
+export function formatPhoneNumber(rawPhoneNumber) {
+  if (typeof rawPhoneNumber !== 'string' || rawPhoneNumber.length !== 10) {
+    return rawPhoneNumber;
+  }
+  else if (rawPhoneNumber.slice(0,2) === '06') {
+    return `(06) ${rawPhoneNumber.slice(2,4)} ${rawPhoneNumber.slice(4,6)} ${rawPhoneNumber.slice(6,8)} ${rawPhoneNumber.slice(8,10)}`;
+  }
+  else {
+    return `(${rawPhoneNumber.slice(0,3)}) ${rawPhoneNumber.slice(3,6)} ${rawPhoneNumber.slice(6,8)} ${rawPhoneNumber.slice(8,10)}`;
+  }
+}

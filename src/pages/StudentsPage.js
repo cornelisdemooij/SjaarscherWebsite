@@ -209,7 +209,7 @@ class StudentsPage extends LitElement {
 
   _handleProfileSwipe() {
     const swipedProfile = this.profiles.pop();
-    console.log(`swipedProfile = ${JSON.stringify(swipedProfile)}`);
+    //console.log(`swipedProfile = ${JSON.stringify(swipedProfile)}`);
     
     const fadeTime = 0.3; // in seconds.
     const profileElements = this.shadowRoot.querySelectorAll('student-profile');
