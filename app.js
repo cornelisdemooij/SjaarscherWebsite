@@ -8,7 +8,8 @@ const routes = {
   '/account': `<account-page></account-page>`,
   '/settings': `<settings-page></settings-page>`,
   '/about': `<about-page></about-page>`,
-  '/construction': `<construction-page></construction-page>` // Not in side nav.
+  '/construction': `<construction-page></construction-page>`, // Not in side nav.
+  '/login': `<login-page></login-page>` // Not in side nav.
 };
 
 const rootDiv = document.getElementById('root');
@@ -66,6 +67,12 @@ function onFocusSearch() {
   searchBox.focus();
 }
 document.addEventListener("focusSearch", onFocusSearch);
+
+function onOpenLoginPage() {
+  navigate('/login');
+  // TODO: Implement a message to the API here for metrics.
+}
+document.addEventListener("openLoginPage", onOpenLoginPage);
 
 function getCookie(cname) {
   var name = cname + "=";
