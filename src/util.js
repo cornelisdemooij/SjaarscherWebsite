@@ -1,4 +1,5 @@
 import { apiHost } from '../config/config.js';
+import XSRF from '../src/services/XSRF.js';
 
 export function getCookie(cname) {
   var name = cname + "=";
@@ -19,30 +20,16 @@ export function getCookie(cname) {
 export function submitEmail(email, caller) {
   const message = { email };
 
-  // TODO: Add config for domain by environment (local or prod).
-
-  fetch(`${apiHost}/api/xsrf`, { credentials: 'include' }).then(response => {
-    if (!response) {
-      window.alert('Error: invalid XSRF response from backend API.');
-      dispatchEmailSubmitResult(false, caller);
-    }
-
-    const xsrfToken = getCookie('XSRF-TOKEN');
-    const headers = new Headers({
-      'Content-Type': 'application/json',
-      'X-XSRF-TOKEN': xsrfToken
-    });
-    if (!xsrfToken) {
-      window.alert('Error: XSRF-TOKEN cookie not found.');
-      dispatchEmailSubmitResult(false, caller);
-    }
-    
-    fetch(`${apiHost}/api/email`, {
+  XSRF.getXSRFToken()
+    .then(xsrfToken => fetch(`${apiHost}/api/email`, {
       method: 'post',
       credentials: 'include',
-      headers,
+      headers: new Headers({
+        'Content-Type': 'application/json',
+        'X-XSRF-TOKEN': xsrfToken
+      }),
       body: JSON.stringify(message)
-    })
+    }))
     .then(response => response.text())
     .then((data) => {
       const parsedData = data ? JSON.parse(data) : {};
@@ -57,7 +44,6 @@ export function submitEmail(email, caller) {
       window.alert('Error: Could not save e-mail address. Backend responded with: ' + JSON.stringify(error));
       dispatchEmailSubmitResult(false, caller);
     });
-  });
 }
 
 function dispatchEmailSubmitResult(success, caller) {

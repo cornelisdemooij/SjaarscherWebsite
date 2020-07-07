@@ -1,5 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
-import Groups from '../crud/Groups.js';
+import Groups from '../services/Groups.js';
 
 class UnionsPage extends LitElement {
   static get styles() {

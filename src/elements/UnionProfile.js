@@ -1,5 +1,5 @@
 import {LitElement, html, css} from 'lit-element';
-import GroupImages from '../crud/GroupImages.js';
+import GroupImages from '../services/GroupImages.js';
 import { formatPhoneNumber } from '../util.js';
 
 class UnionProfile extends LitElement {
