@@ -1,5 +1,6 @@
 import {LitElement, html, css} from 'lit-element';
 import { apiHost } from '../../config/config.js';
+import XSRF from '../services/XSRF.js';
 
 class LoginPage extends LitElement {
   static get styles() {
@@ -78,6 +79,20 @@ class LoginPage extends LitElement {
     `;
   }
 
+  static get properties() {
+    return {
+      xsrfToken: { type: String },
+    };
+  }
+
+  constructor() {
+    super();
+    this.xsrfToken = '';
+    XSRF.getXSRFToken()
+      .then(xsrfToken => this.xsrfToken = xsrfToken)
+      .catch(error => console.error(error));
+  }
+
   // Need to add code here to check or get XSRF token.
 
   render() {
@@ -100,7 +115,7 @@ class LoginPage extends LitElement {
         <div id="password">
           <input type="password" placeholder="wachtwoord" name="password" required>
         </div>
-        <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
+        <input type="hidden" name="_csrf" value="${this.xsrfToken}"/>
         <button type="submit">Log in</button>
 
         <div id="alternatives">
