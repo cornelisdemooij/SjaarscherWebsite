@@ -36,11 +36,8 @@ class LoginPage extends LitElement {
         padding: 0 0 20px;
       }
 
-      div {
-        margin: 10px 0;
-      }
-
       input {
+        margin: 10px 0;
         text-align: center;
         width: 592px;
       }
@@ -73,31 +70,20 @@ class LoginPage extends LitElement {
         }
       }
 
+      #alternatives {
+        margin: 10px 0;
+      }
       #alternatives, #alternatives > a {
         font-size: 17px;
       }
     `;
   }
 
-  static get properties() {
-    return {
-      xsrfToken: { type: String },
-    };
-  }
-
-  constructor() {
-    super();
-    this.xsrfToken = '';
-    XSRF.getXSRFToken()
-      .then(xsrfToken => this.xsrfToken = xsrfToken)
-      .catch(error => console.error(error));
-  }
-
   // Need to add code here to check or get XSRF token.
 
   render() {
     return html`
-      <form action="${apiHost}/api/account/login" method="POST">
+      <form @submit=${this.submit}>
         <img
           id="logo-icon"
           src="https://cdn.sjaarscher.nl/icons/favicon-512x512.png"
@@ -109,21 +95,50 @@ class LoginPage extends LitElement {
           alt="Sjaarscher"
         />
 
-        <div id="email">
-          <input type="text" placeholder="naam@mail.com" name="email" required>
-        </div>
-        <div id="password">
-          <input type="password" placeholder="wachtwoord" name="password" required>
-        </div>
-        <input type="hidden" name="_csrf" value="${this.xsrfToken}"/>
+        <input id="email" type="text" placeholder="naam@mail.com" name="email" required>
+        <input id="password" type="password" placeholder="wachtwoord" name="password" required>
         <button type="submit">Log in</button>
 
         <div id="alternatives">
           <a href="#">Wachtwoord vergeten?</a> · <a href="#">Account aanmaken</a>
         </div>
-        
       </form>
     `;
+  }
+
+  submit(e) {
+    e.preventDefault(); // Prevent the form's default behaviour, where it uses the input values as query params.
+
+    const email = this.shadowRoot.getElementById('email').value;
+    const password = this.shadowRoot.getElementById('password').value;
+
+    XSRF.getXSRFToken()
+      .then(xsrfToken => fetch(`${apiHost}/api/account/login`, {
+        method: 'post',
+        credentials: 'include',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          'X-XSRF-TOKEN': xsrfToken
+        }),
+        body: JSON.stringify({email, password})
+      }))
+      .then(response => response.text())
+      .then((data) => {
+        const parsedData = data ? JSON.parse(data) : {};
+        if (parsedData.status && parsedData.status !== 202) {
+          throw parsedData;
+        } else {
+          if (parsedData) {
+            navigateBack();
+          } else {
+            navigate('/about')
+          }
+        }
+      })
+      .catch((error) => {
+        console.error(error)
+        window.alert('Error: Could not log you in. Backend responded with: ' + JSON.stringify(error));
+      });
   }
 }
 

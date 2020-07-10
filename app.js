@@ -46,6 +46,10 @@ window.onpopstate = () => {
   rootDiv.innerHTML = routes[window.location.pathname]
 }
 
+function navigateBack() {
+  window.history.back();
+}
+
 /* Set the width of the side navigation to 250px and the left margin of the page content to 250px and add a black background color to body */
 function onOpenNav() {
   document.getElementById("side-navigation").style.width = "250px";
