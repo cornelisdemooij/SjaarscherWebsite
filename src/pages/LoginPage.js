@@ -37,9 +37,10 @@ class LoginPage extends LitElement {
       }
 
       input {
-        margin: 10px 0;
+        margin: 10px auto;
         text-align: center;
         width: 592px;
+        display: block;
       }
       @media (max-width: 600px) {
         input {

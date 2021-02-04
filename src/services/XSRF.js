@@ -8,6 +8,8 @@ class XSRF {
     } else {
       return fetch(`${apiHost}/api/xsrf`, { credentials: 'include' })
         .then(response => {
+          console.log(response)
+
           if (!response) {
             console.error('Error: invalid XSRF response from backend API.');
           }
