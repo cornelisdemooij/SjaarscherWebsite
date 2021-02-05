@@ -1,5 +1,5 @@
-name: Build & Deploy To Production
-on:
+name: Build & Deploy
+on: 
   push:
     branches: [ master ]
   pull_request:
@@ -10,51 +10,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 12.x
+    - name: Node - Build & Configure
       uses: actions/setup-node@v1
       with:
         node-version: 12.x
     - run: npm ci                       # Clean install
     - run: mv ./config/prod/config.js ./config/config.js -f
     - run: npm run build --if-present   # Build with Polymer, see package.json
-    #- run: npm test                    # Disabled, because I haven't created tests yet.
+    - run: mv domain.conf.template build/default/sjaarscher.nl.conf
+    - run: sed -i 's/%%DOMAIN%%/sjaarscher.nl/g' build/default/sjaarscher.nl.conf
 
-    - name: SFTP Deploy AMS 1 - Clear
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.AMS3_SJAARSCHER_01_IP }}
-        username: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_USERNAME }}
-        key: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_PRIVATE_KEY }}
-        port: 22
-        script: rm -r /var/www/html/* || true
-
-    - name: SFTP Deploy AMS 1 - Upload
+    - name: SFTP - Upload New Files
       uses: wlixcc/SFTP-Deploy-Action@v1.0
       with:
-        username: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_USERNAME }}
-        server: ${{ secrets.AMS3_SJAARSCHER_01_IP }}
+        username: ${{ secrets.DEPLOY_USERNAME }}
+        server: ${{ secrets.SERVER_IP }}
         port: 22
-        ssh_private_key: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_PRIVATE_KEY }} # copy private_key from *.pem file, keep format
-        local_path: ./build/default/* # copies all files from this folder, default is ./*
-        remote_path: /var/www/html/   # copies to this remote_path, default is /
-        # sftp args                   # arguments for sftp, optional
+        ssh_private_key: ${{ secrets.DEPLOY_PRIVATE_KEY }} # copy private_key from *.pem file, keep format
+        local_path: ./build/default/*       # copies all files from this folder, default is ./*
+        remote_path: /home/deploy_fe/temp   # copies to this remote_path, default is /
+        # sftp args                         # arguments for sftp, optional
 
-    - name: SFTP Deploy AMS 2 - Clear
+    - name: SSH - Remote Operations
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.AMS3_SJAARSCHER_02_IP }}
-        username: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_USERNAME }}
-        key: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_PRIVATE_KEY }}
+        host: ${{ secrets.SERVER_IP }}
+        username: ${{ secrets.DEPLOY_USERNAME }}
+        key: ${{ secrets.DEPLOY_PRIVATE_KEY }}
         port: 22
-        script: rm -r /var/www/html/* || true
-
-    - name: SFTP Deploy AMS 2 - Upload
-      uses: wlixcc/SFTP-Deploy-Action@v1.0
-      with:
-        username: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_USERNAME }}
-        server: ${{ secrets.AMS3_SJAARSCHER_02_IP }}
-        port: 22
-        ssh_private_key: ${{ secrets.SJAARSCHER_FRONTEND_DEPLOY_PRIVATE_KEY }} # copy private_key from *.pem file, keep format
-        local_path: ./build/default/* # copies all files from this folder, default is ./*
-        remote_path: /var/www/html/   # copies to this remote_path, default is /
-        # sftp args                   # arguments for sftp, optional
+        script:
+          sudo chown root:root /home/deploy_fe/temp/sjaarscher.nl.conf
+          && sudo rm -f /etc/apache2/sites-available/sjaarscher.nl.conf
+          && sudo mv -f /home/deploy_fe/temp/sjaarscher.nl.conf /etc/apache2/sites-available/
+          && sudo rm -rfd /var/www/html/sjaarscher.nl
+          && sudo mkdir /var/www/html/sjaarscher.nl
+          && sudo mv -f /home/deploy_fe/temp/* /var/www/html/sjaarscher.nl
+          && sudo ln -sf /etc/apache2/sites-available/sjaarscher.nl.conf /etc/apache2/sites-enabled/sjaarscher.nl.conf
+          && a2ensite sjaarscher.nl
+          && sudo /etc/init.d/apache2 reload

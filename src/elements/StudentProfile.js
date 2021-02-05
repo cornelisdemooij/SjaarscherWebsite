@@ -1,4 +1,5 @@
-import {LitElement, html, css} from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
+import { siteHost } from '../../config/config.js';
 
 class StudentProfile extends LitElement {
   static get styles() {
@@ -131,7 +132,7 @@ class StudentProfile extends LitElement {
           <div class="image-container" @mousedown=${this._onMouseDown} @touchstart=${this._onTouchStart}>
             <img 
               class="profile-image"
-              src="https://cdn.sjaarscher.nl/profile_images/${this.firstName.toLowerCase()}.jpg"
+              src="${siteHost}/assets/profile_images/${this.firstName.toLowerCase()}.jpg"
               alt="${this.firstName}"
               title="${this.firstName}"
             >

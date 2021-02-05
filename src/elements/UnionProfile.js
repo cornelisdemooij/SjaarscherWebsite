@@ -1,6 +1,7 @@
-import {LitElement, html, css} from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
 import GroupImages from '../crud/GroupImages.js';
 import { formatPhoneNumber } from '../util.js';
+import { siteHost } from '../../config/config.js';
 
 class UnionProfile extends LitElement {
   static get styles() {
@@ -157,7 +158,7 @@ class UnionProfile extends LitElement {
               ? html`
                   <img 
                     class="profile-image"
-                    src="https://cdn.sjaarscher.nl/groups/${this.id}/${this.groupImages[0].filename}"
+                    src="${siteHost}/assets/groups/${this.groupImages[0].filename}"
                     alt="${this.name}"
                     title="${this.name}"
                   >

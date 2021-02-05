@@ -1,4 +1,5 @@
-import {LitElement, html, css} from 'lit-element';
+import { LitElement, html, css } from 'lit-element';
+import { siteHost } from '../../config/config.js';
 
 class HomePage extends LitElement {
   static get styles() {
@@ -81,12 +82,12 @@ class HomePage extends LitElement {
       <div id='home-container'>
         <img
           id="logo-icon"
-          src="https://cdn.sjaarscher.nl/icons/favicon-512x512.png"
+          src="${siteHost}/assets/icons/favicon-512x512.png"
           alt="Sjaarscher"
         />
         <img
           id="logo-text"
-          src="https://cdn.sjaarscher.nl/icons/Sjaarscher%20-%20Text%20Logo.png"
+          src="${siteHost}/assets/icons/Sjaarscher%20-%20Text%20Logo.png"
           alt="Sjaarscher"
         />
         <div id='start-container'>
